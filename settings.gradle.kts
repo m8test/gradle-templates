@@ -32,3 +32,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "m8test-gradle-templates"
+include(":lua")
