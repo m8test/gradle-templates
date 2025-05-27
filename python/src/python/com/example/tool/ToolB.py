@@ -1,5 +1,5 @@
-from com.example.tool.ToolA import ToolA
 from m8test_java.com.m8test.script.core.api.console.Console import Console
+from python.com.example.tool.ToolA import ToolA
 
 
 class ToolB:
