@@ -5,12 +5,23 @@ plugins {
 
 // m8testJavascript 闭包用于配置 m8test javascript 项目
 m8testJavascript {
+    filterClass = { packageName, className ->
+        // 这里用于过滤一些需要使用的类，避免生成代码提示文件时间过长以及防止过多的代码提示文件导致ide卡顿
+        packageName.startsWith("com.m8test")
+//                || packageName.startsWith("java.")
+//                || packageName.startsWith("kotlin.")
+                // 用到的类才生成代码提示文件，如果所有的java类都生成的话会导致idea非常卡, 如果你没有使用 android api可以把 android 相关的注释掉
+                || packageName.startsWith("android.view")
+                || packageName.startsWith("android.widget")
+//                || packageName.startsWith("com.blankj.utilcode")
+//                || packageName.startsWith("com.hjq.toast")
+    }
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
-        adbDeviceSerial = null
+        adbDeviceSerial = "emulator-5554"
         // 安卓设备的ip地址, 这里是局域网的ip地址, 如果是云手机的话可能需要内网穿透, 这里的ip就需要填写有公网ip的服务器的ip地址
-        deviceIp = "172.16.0.205"
+        deviceIp = "172.16.0.204"
         // M8Test脚本项目根路径, 电脑端构建好的项目会推送到该路径对应的目录
         projectRoot = "/sdcard/M8Test/project"
         // 安卓设备的adb调试端口, 如果是云手机的话就需要填写内网穿透时映射的adb端口
@@ -20,7 +31,7 @@ m8testJavascript {
         // 打包apk时的运行时模板apk配置, 打包apk时会将脚本项目打包到该模板apk中
         runtimeConfig {
             // 模板apk的版本
-            versionName = "0.1.5"
+            versionName = "0.1.8"
             // 模板apk下载地址
             downloadUrl =
                 "https://github.com/m8test/runtime-release/releases/download/${versionName}/com.m8test.app.runtime-release_${versionName}.apk"
@@ -30,7 +41,7 @@ m8testJavascript {
             // 开发工具的包名, 使用默认就好
             packageName = "com.m8test.app.developmentkit"
             // 开发工具版本
-            versionName = "0.1.5"
+            versionName = "0.1.8"
             // 开发工具下载地址
             downloadUrl =
                 "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
