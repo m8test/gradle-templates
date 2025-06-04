@@ -2,9 +2,17 @@
 
 buildscript {
     dependencies {
-        val jarPath = File(System.getProperty("user.home"), ".m8test/jar/gradle/0.1.3.jar")
+        val version = "0.1.3"
+        val jarPath = File(System.getProperty("user.home"), ".m8test/jar/gradle/${version}.jar")
         if (!jarPath.exists()) {
-            throw GradleException("Required classpath jar not found: $jarPath")
+            try {
+                val url =
+                    java.net.URL("https://github.com/m8test/development-environment/releases/download/$version/com.m8test.gradle.plugin-$version.jar")
+                url.openStream().use { input -> java.nio.file.Files.copy(input, jarPath.toPath()) }
+                println("Download gradle jar to  ${jarPath.canonicalPath} complete.")
+            } catch (e: Exception) {
+                throw GradleException("Required classpath jar not found: $jarPath")
+            }
         }
         classpath(files(jarPath))
     }
