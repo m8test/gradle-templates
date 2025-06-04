@@ -10,3 +10,4 @@ release
 /captures
 .externalNativeBuild
 .cxx
+tsconfig.json
