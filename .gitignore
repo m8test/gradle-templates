@@ -11,3 +11,4 @@ release
 .externalNativeBuild
 .cxx
 tsconfig.json
+.vscode
