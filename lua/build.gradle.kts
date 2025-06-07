@@ -8,18 +8,20 @@ m8testLua {
     filterClass = { packageName, className ->
         // 这里用于过滤一些需要使用的类，避免生成代码提示文件时间过长以及防止过多的代码提示文件导致ide卡顿
         packageName.startsWith("com.m8test")
-                || packageName.startsWith("java.")
-                || packageName.startsWith("kotlin.")
-                || packageName.startsWith("android.")
-                || packageName.startsWith("com.blankj.utilcode")
-                || packageName.startsWith("com.hjq.toast")
+                || packageName.startsWith("java.lang")
+                // || packageName.startsWith("kotlin.")
+                || packageName.startsWith("android.view")
+                || packageName.startsWith("android.widget")
+                || packageName.startsWith("android.content")
+                // || packageName.startsWith("com.blankj.utilcode")
+                // || packageName.startsWith("com.hjq.toast")
     }
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
-        adbDeviceSerial = "emulator-5554"
+        // adbDeviceSerial = "emulator-5554"
         // 安卓设备的ip地址, 这里是局域网的ip地址, 如果是云手机的话可能需要内网穿透, 这里的ip就需要填写有公网ip的服务器的ip地址
-        deviceIp = "172.16.0.204"
+        deviceIp = "192.168.31.157"
         // M8Test脚本项目根路径, 电脑端构建好的项目会推送到该路径对应的目录
         projectRoot = "/sdcard/M8Test/project"
         // 安卓设备的adb调试端口, 如果是云手机的话就需要填写内网穿透时映射的adb端口
