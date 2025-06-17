@@ -10,5 +10,11 @@ release
 /captures
 .externalNativeBuild
 .cxx
-tsconfig.json
 .vscode
+java/bin
+groovy/bin
+kotlin/bin
+ruby/bin
+# 由gradle生成，可以忽略
+tsconfig.json
+.emmyrc.json
