@@ -58,7 +58,7 @@ m8testRuby {
             // 无障碍组件
             name = "YumiMiyamotoAccessibility"
             // 组件版本
-            version = "0.1.0"
+            version = "0.1.1"
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
