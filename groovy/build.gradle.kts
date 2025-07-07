@@ -20,7 +20,7 @@ m8testGroovy {
         // 打包apk时的运行时模板apk配置, 打包apk时会将脚本项目打包到该模板apk中
         runtimeConfig {
             // 模板apk的版本
-            versionName = "0.1.8"
+            versionName = "0.1.10"
             // 模板apk下载地址
             downloadUrl =
                 "https://github.com/m8test/runtime-release/releases/download/${versionName}/com.m8test.app.runtime-release_${versionName}.apk"
@@ -30,7 +30,7 @@ m8testGroovy {
             // 开发工具的包名, 使用默认就好
             packageName = "com.m8test.app.developmentkit"
             // 开发工具版本
-            versionName = "0.1.8"
+            versionName = "0.1.10"
             // 开发工具下载地址
             downloadUrl =
                 "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
