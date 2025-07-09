@@ -7,7 +7,7 @@ plugins {
 m8testJavascript {
     filterClass = { packageName, className ->
         // 这里用于过滤一些需要使用的类，避免生成代码提示文件时间过长以及防止过多的代码提示文件导致ide卡顿
-        packageName.startsWith("com.m8test")
+        packageName.startsWith("com.m8test") && !packageName.startsWith("com.m8test.internal")
                || packageName.startsWith("java.")
                || packageName.startsWith("kotlin.")
                 // 用到的类才生成代码提示文件，如果所有的java类都生成的话会导致idea非常卡, 如果你没有使用 android api可以把 android 相关的注释掉
@@ -31,7 +31,7 @@ m8testJavascript {
         // 打包apk时的运行时模板apk配置, 打包apk时会将脚本项目打包到该模板apk中
         runtimeConfig {
             // 模板apk的版本
-            versionName = "0.1.10"
+            versionName = "0.1.11"
             // 模板apk下载地址
             downloadUrl =
                 "https://github.com/m8test/runtime-release/releases/download/${versionName}/com.m8test.app.runtime-release_${versionName}.apk"
@@ -41,7 +41,7 @@ m8testJavascript {
             // 开发工具的包名, 使用默认就好
             packageName = "com.m8test.app.developmentkit"
             // 开发工具版本
-            versionName = "0.1.10"
+            versionName = "0.1.11"
             // 开发工具下载地址
             downloadUrl =
                 "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
