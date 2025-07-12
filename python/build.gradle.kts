@@ -2,7 +2,8 @@ plugins {
     // 使用 m8test python gradle 插件, 表示这是一个 m8test python 项目
     alias(libs.plugins.m8test.python)
 }
-
+// 在gradle.properties中定义的变量, 用于指定m8test版本
+val m8testVersion: String by project
 // m8testPython 闭包用于配置 m8test python 项目
 m8testPython {
     filterClass = { packageName, className ->
@@ -29,7 +30,7 @@ m8testPython {
         // 打包apk时的运行时模板apk配置, 打包apk时会将脚本项目打包到该模板apk中
         runtimeConfig {
             // 模板apk的版本
-            versionName = "0.1.11"
+            versionName = m8testVersion
             // 模板apk下载地址
             downloadUrl =
                 "https://github.com/m8test/runtime-release/releases/download/${versionName}/com.m8test.app.runtime-release_${versionName}.apk"
@@ -39,7 +40,7 @@ m8testPython {
             // 开发工具的包名, 使用默认就好
             packageName = "com.m8test.app.developmentkit"
             // 开发工具版本
-            versionName = "0.1.11"
+            versionName = m8testVersion
             // 开发工具下载地址
             downloadUrl =
                 "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
