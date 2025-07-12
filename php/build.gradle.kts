@@ -4,6 +4,8 @@ plugins {
 }
 // 在gradle.properties中定义的变量, 用于指定m8test版本
 val m8testVersion: String by project
+// 在gradle.properties中定义的变量, 用于指定scrcpy版本
+val scrcpyVersion: String by project
 // m8testPhp 闭包用于配置 m8test php 项目
 m8testPhp {
     filterClass = { packageName, className ->
@@ -80,7 +82,7 @@ m8testPhp {
             // adb自动化组件
             name = "YumiMiyamotoScrcpy"
             // 组件版本
-            version = "3.2.0"
+            version = scrcpyVersion
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/scrcpy-release/releases/download/Scrcpy-$version/com.m8test.scrcpy-release_$version.apk"
