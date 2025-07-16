@@ -2,7 +2,7 @@
 
 buildscript {
     dependencies {
-        val version = "0.1.6"
+        val version = "0.1.7"
         val jarPath = File(System.getProperty("user.home"), ".m8test/jar/gradle/${version}.jar")
         if (!jarPath.exists()) {
             try {
