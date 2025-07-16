@@ -6,6 +6,8 @@ plugins {
 val m8testVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定scrcpy版本
 val scrcpyVersion: String by project
+// 在gradle.properties中定义的变量, 用于指定无障碍插件版本
+val accessibilityVersion: String by project
 // m8testJava 闭包用于配置 m8test java 项目
 m8testJava {
     // debugger 闭包用于配置调试器(安卓设备)的信息
@@ -54,7 +56,7 @@ m8testJava {
             // 无障碍组件
             name = "YumiMiyamotoAccessibility"
             // 组件版本
-            version = "0.1.1"
+            version = accessibilityVersion
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
