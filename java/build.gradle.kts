@@ -6,6 +6,10 @@ plugins {
 val m8testVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定无障碍插件版本
 val accessibilityVersion: String by project
+// 在gradle.properties中定义的变量, 用于指定图色插件版本
+val opencvVersion: String by project
+// 在gradle.properties中定义的变量, 用于指定文字识别插件版本
+val ocrVersion: String by project
 // m8testJava 闭包用于配置 m8test java 项目
 m8testJava {
     // debugger 闭包用于配置调试器(安卓设备)的信息
@@ -71,7 +75,7 @@ m8testJava {
             // ocr组件
             name = "YumiMiyamotoOcr"
             // 组件版本
-            version = "0.1.0"
+            version = ocrVersion
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/ocr-release/releases/download/ocr-$version/com.m8test.ocr-release_$version.apk"
@@ -81,7 +85,7 @@ m8testJava {
             // opencv 图色组件
             name = "YumiMiyamotoOpencv"
             // 组件版本
-            version = "0.1.0"
+            version = opencvVersion
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
