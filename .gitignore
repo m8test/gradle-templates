@@ -18,3 +18,4 @@ ruby/bin
 # 由gradle生成，可以忽略
 tsconfig.json
 .emmyrc.json
+/**/node_modules/
