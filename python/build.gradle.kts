@@ -21,6 +21,10 @@ m8testPython {
                 || packageName.startsWith("com.blankj.utilcode")
                 || packageName.startsWith("com.hjq.toast")
     }
+    pyarmor {
+        isEnabled = true // 是否启用pyarmor加密脚本
+        options = listOf() // pyarmor运行时额外的参数, 如果需要更多pyarmor参数的话, 请自行添加
+    }
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
