@@ -11,7 +11,8 @@ $sb = new StringBuilder("M8Test");
 $sb->append("Php");
 $console->log($sb);
 // 调用java对象属性使用 ->
-$console->log(new JavaTypeTester()->OBJECT_FIELD);
+$test = new JavaTypeTester();
+$console->log($test->OBJECT_FIELD);
 // 调用java静态方法使用 ::
 $console->log(System::currentTimeMillis());
 // 调用java静态属性使用 :: 并且添加前缀 $_MJ_ , 编译后会变成 Gravity::CENTER
