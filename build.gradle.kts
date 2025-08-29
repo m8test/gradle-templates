@@ -5,6 +5,7 @@ buildscript {
         val version = "0.1.14"
         val jarPath = File(System.getProperty("user.home"), ".m8test/jar/gradle/${version}.jar")
         if (!jarPath.exists()) {
+            jarPath.parentFile.mkdirs()
             try {
                 val url =
                     java.net.URL("https://github.com/m8test/development-environment/releases/download/$version/com.m8test.gradle.plugin-$version.jar")
