@@ -1,0 +1,60 @@
+name: Publish Plugin and Development Environments
+
+# 触发条件：仅当一个新标签被推送到仓库时触发。
+on:
+  push:
+    tags:
+      - '*' # 匹配所有标签, 例如 '0.1.3', 'v1.0.0'
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+
+    env:
+      LANGUAGE: Python
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- 优化的步骤：动态修改 Gradle Wrapper 的下载地址 ---
+      - name: Modify Gradle Wrapper URL to be version-agnostic
+        run: |
+          # 这个命令只替换 URL 的基础部分，保留了版本化的文件名
+          sed -i 's|distributionUrl=https\\://mirrors.cloud.tencent.com/gradle/|distributionUrl=https\\://services.gradle.org/distributions/|' gradle/wrapper/gradle-wrapper.properties
+          echo "✅ Gradle wrapper URL has been updated to the official mirror."
+          echo "--- Current gradle-wrapper.properties content: ---"
+          cat gradle/wrapper/gradle-wrapper.properties
+          echo "----------------------------------------------------"
+      # ---------------------------------------------------
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Package Development Environment for ${{ env.LANGUAGE }}
+        run: ./gradlew package${{ env.LANGUAGE }}DevelopmentEnvironment -Ppackaging=true
+
+      - name: Create Release and Upload JAR
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          # 使用推送的 Git 标签作为 Release 的标签和标题
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          # 要上传的文件列表。直接使用 Git 标签名来构建文件名
+          files: /home/runner/.m8test/dist/${{ github.ref_name }}.zip
+          # 使用您在仓库 Secrets 中配置的 PAT
+          token: ${{ secrets.GITHUB_TOKEN }}
