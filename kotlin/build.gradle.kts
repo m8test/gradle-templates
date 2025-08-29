@@ -12,6 +12,10 @@ val opencvVersion: String by project
 val ocrVersion: String by project
 // m8testKotlin 闭包用于配置 m8test kotlin 项目
 m8testKotlin {
+//    properties["ADB_HOME"] = "/usr/bin/" // ADB安装目录
+//    properties["ADB_EXECUTABLE"] = "adb" // ADB可执行文件路径, 相对于 ADB_HOME
+//    properties["SCRCPY_HOME"] = "" // scrcpy安装目录, 如果不需要投屏的话可以不安装
+//    properties["SCRCPY_EXECUTABLE"] = "" // scrcpy可执行文件路径, 相对于 SCRCPY_HOME
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
