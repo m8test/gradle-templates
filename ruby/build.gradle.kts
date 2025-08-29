@@ -12,6 +12,12 @@ val opencvVersion: String by project
 val ocrVersion: String by project
 // m8testRuby 闭包用于配置 m8test ruby 项目
 m8testRuby {
+//    properties["ADB_HOME"] = "/usr/bin/" // ADB安装目录
+//    properties["ADB_EXECUTABLE"] = "adb" // ADB可执行文件路径, 相对于 ADB_HOME
+//    properties["SCRCPY_HOME"] = "" // scrcpy安装目录, 如果不需要投屏的话可以不安装
+//    properties["SCRCPY_EXECUTABLE"] = "" // scrcpy可执行文件路径, 相对于 SCRCPY_HOME
+//    properties["RUBY_HOME"] = "/usr/bin/" // jruby安装路径
+//    properties["RUBY_EXECUTABLE"] = "jruby" // jruby可执行文件路径, 相对于 RUBY_HOME
     filterClass = { packageName, className ->
         // 这里用于过滤一些需要使用的类，避免生成代码提示文件时间过长以及防止过多的代码提示文件导致ide卡顿
         packageName.startsWith("com.m8test") && !packageName.startsWith("com.m8test.internal")
