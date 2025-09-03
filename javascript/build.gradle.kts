@@ -23,8 +23,8 @@ m8testJavascript {
     filterClass = { packageName, className ->
         // 这里用于过滤一些需要使用的类，避免生成代码提示文件时间过长以及防止过多的代码提示文件导致ide卡顿
         packageName.startsWith("com.m8test") && !packageName.startsWith("com.m8test.internal")
-               || packageName.startsWith("java.")
-               || packageName.startsWith("kotlin.")
+                || packageName.startsWith("java.")
+                || packageName.startsWith("kotlin.")
                 // 用到的类才生成代码提示文件，如果所有的java类都生成的话会导致idea非常卡, 如果你没有使用 android api可以把 android 相关的注释掉
                 || packageName.startsWith("android.view")
                 || packageName.startsWith("android.widget")
@@ -111,6 +111,21 @@ m8testJavascript {
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
+        }
+    }
+    // 工具相关配置
+    tools {
+        // 测试文件的配置
+        test {
+            // 需要测试的文件路径，相对于模块根目录
+            localPath = "build/test/test.js"
+            // 测试文件在设备中的路径
+            remotePath = "/sdcard/M8Test/test.js"
+        }
+        // 端口转发，可以将安卓设备端的端口映射到电脑端
+        portForwarding {
+            // 将安卓设备的5001端口映射到本地的5000端口, 可以通过 localhost:5000 访问到安卓设备端的5001端口
+            add(5000, 5001)
         }
     }
     // 构建脚本配置, 一般不会用到
