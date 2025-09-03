@@ -110,6 +110,21 @@ m8testPython {
                 "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
         }
     }
+    // 工具相关配置
+    tools {
+        // 测试文件的配置
+        test {
+            // 需要测试的文件路径，相对于模块根目录
+            localPath = "build/test/test.py"
+            // 测试文件在设备中的路径
+            remotePath = "/sdcard/M8Test/test.py"
+        }
+        // 端口转发，可以将安卓设备端的端口映射到电脑端
+        portForwarding {
+            // 将安卓设备的5001端口映射到本地的5000端口, 可以通过 localhost:5000 访问到安卓设备端的5001端口
+            add(5000, 5001)
+        }
+    }
     // 构建脚本配置, 一般不会用到
     buildScriptConfig {
 //        // 在构架脚本中引入插件
