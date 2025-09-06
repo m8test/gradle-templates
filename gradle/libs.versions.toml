@@ -1,4 +1,5 @@
 [versions]
+kotlin = "2.1.21"
 
 [libraries]
 
@@ -11,6 +12,6 @@ m8test-javascript = { id = "com.m8test.gradle.javascript" }
 m8test-lua = { id = "com.m8test.gradle.lua" }
 m8test-php = { id = "com.m8test.gradle.php" }
 m8test-ruby = { id = "com.m8test.gradle.ruby" }
-kotlin = { id = "org.jetbrains.kotlin.jvm", version = "2.1.10" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [bundles]
