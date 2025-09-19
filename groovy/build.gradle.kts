@@ -99,10 +99,9 @@ m8testGroovy {
     tools {
         // 测试文件的配置
         test {
-            // 需要测试的文件路径，相对于模块根目录
-            localPath = "build/test/test.groovy"
-            // 测试文件在设备中的路径
-            remotePath = "/sdcard/M8Test/test.groovy"
+            // key 为需要测试的文件路径，相对于模块根目录, value 为测试文件在设备中的路径
+            paths["build/test/test.groovy"] = "/sdcard/M8Test/test.groovy"
+            paths["build/test/test1.groovy"] = "/sdcard/M8Test/test1.groovy"
         }
         // 端口转发，可以将安卓设备端的端口映射到电脑端
         portForwarding {
