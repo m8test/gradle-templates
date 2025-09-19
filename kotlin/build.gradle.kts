@@ -47,8 +47,6 @@ m8testKotlin {
                 "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
         }
     }
-    // 脚本入口文件(entry)运行时需要调用的内容, 例如需要调用其中的 run() 表示执行该文件中run方法
-    caller = "run()"
     // 尝试多少次拉取全局变量的文件, 由于kotlin编译需要较长时间, 所以设置大一点
     pullGlobalVariablesFileTimes = 60
     // 脚本项目配置闭包
@@ -103,10 +101,9 @@ m8testKotlin {
     tools {
         // 测试文件的配置
         test {
-            // 需要测试的文件路径，相对于模块根目录
-            localPath = "build/test/test.kt"
-            // 测试文件在设备中的路径
-            remotePath = "/sdcard/M8Test/test.kt"
+            // key 为需要测试的文件路径，相对于模块根目录, value 为测试文件在设备中的路径
+            paths["build/test/test.kt"] = "/sdcard/M8Test/test.kt"
+            paths["build/test/test1.kt"] = "/sdcard/M8Test/test1.kt"
         }
         // 端口转发，可以将安卓设备端的端口映射到电脑端
         portForwarding {
