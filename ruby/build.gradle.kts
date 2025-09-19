@@ -110,10 +110,9 @@ m8testRuby {
     tools {
         // 测试文件的配置
         test {
-            // 需要测试的文件路径，相对于模块根目录
-            localPath = "build/test/test.rb"
-            // 测试文件在设备中的路径
-            remotePath = "/sdcard/M8Test/test.rb"
+            // key 为需要测试的文件路径，相对于模块根目录, value 为测试文件在设备中的路径
+            paths["build/test/test.rb"] = "/sdcard/M8Test/test.rb"
+            paths["build/test/test1.rb"] = "/sdcard/M8Test/test1.rb"
         }
         // 端口转发，可以将安卓设备端的端口映射到电脑端
         portForwarding {
