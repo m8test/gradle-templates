@@ -79,6 +79,8 @@ m8testLua {
         addAsset("copyright.txt")
         // 脚本项目入口文件, 这里是相对于src目录的路径, 由于kts后缀文件会被认为是gradle脚本, 所以需要使用kt后缀名作为入口文件, 插件会自动将入口文件的kt改为kts, 请注意, 不要在入口文件之外的其他kt文件中使用m8test脚本提供的全局变量
         entry = "com/example/script/primary.lua"
+        // 辅助脚本，会在入口文件中自动启动这些脚本, 需要是相对于src目录的路径
+        sides = mutableListOf("com/example/script/side1.lua", "com/example/script/side2.lua")
         // 脚本项目包名, 和java包名规则一样
         packageName = "com.example.script.lua"
         // 脚本项目logo配置, 这里是相对于 res 目录的路径
