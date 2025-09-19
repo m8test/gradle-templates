@@ -47,8 +47,6 @@ m8testJava {
                 "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
         }
     }
-    // 脚本入口文件(entry)运行时需要调用的内容, 例如需要调用其中的 MyScript.run(); 表示执行该文件中 MyScript 类的静态run方法
-    caller = "MyScript.run();"
     // 脚本项目配置闭包
     projectConfig {
         // 是否将插件(语言/组件)打包进脚项目中, 如果不将插件打包进脚本项目中，那么运行时会从网络下载需要的语言以及组件，但是需要确保能正常访问外网，这种方式打包速度快，推荐开发时使用这种方式;如果是打包成apk，推荐将插件打包进脚项目中, 这样交付给用户之后就可以直接使用，而无需从网络下载插件, 但是这样安装包会更大
@@ -101,10 +99,9 @@ m8testJava {
     tools {
         // 测试文件的配置
         test {
-            // 需要测试的文件路径，相对于模块根目录
-            localPath = "build/test/test.java"
-            // 测试文件在设备中的路径
-            remotePath = "/sdcard/M8Test/test.java"
+            // key 为需要测试的文件路径，相对于模块根目录, value 为测试文件在设备中的路径
+            paths["build/test/test.java"] = "/sdcard/M8Test/test.java"
+            paths["build/test/test1.java"] = "/sdcard/M8Test/test1.java"
         }
         // 端口转发，可以将安卓设备端的端口映射到电脑端
         portForwarding {
