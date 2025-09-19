@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import com.example.tool.ToolB
 import com.m8test.script.GlobalVariables.*
 
-fun run() {
+fun primaryRun() {
     // 这里写代码
     val tool = ToolB()
     tool.methodB(_console)
@@ -31,3 +31,5 @@ fun run() {
     // 显示界面
     _activity.start()
 }
+// 下面的语句中的 '//-m8test-remove' 在实际编译时会被删除，也就是将会改成 'primaryRun();', 但是不能省略，否则 primaryRun 方法不会被执行
+//-m8test-remove primaryRun();
