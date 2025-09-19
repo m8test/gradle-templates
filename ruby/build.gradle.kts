@@ -30,9 +30,9 @@ m8testRuby {
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
-        adbDeviceSerial = "emulator-5554"
+//        adbDeviceSerial = "emulator-5554"
         // 安卓设备的ip地址, 这里是局域网的ip地址, 如果是云手机的话可能需要内网穿透, 这里的ip就需要填写有公网ip的服务器的ip地址
-        deviceIp = "172.16.0.204"
+        deviceIp = "192.168.31.157"
         // M8Test脚本项目根路径, 电脑端构建好的项目会推送到该路径对应的目录
         projectRoot = "/sdcard/M8Test/project"
         // 安卓设备的adb调试端口, 如果是云手机的话就需要填写内网穿透时映射的adb端口
@@ -71,6 +71,8 @@ m8testRuby {
         addAsset("copyright.txt")
         // 脚本项目入口文件, 这里是相对于src目录的路径
         entry = "com/example/script/primary.rb"
+        // 辅助脚本，会在入口文件中自动启动这些脚本, 需要是相对于src目录的路径
+        sides = mutableListOf("com/example/script/side1.rb", "com/example/script/side2.rb")
         // 脚本项目包名, 和java包名规则一样
         packageName = "com.example.script.ruby"
         // 脚本项目logo配置, 这里是相对于 res 目录的路径
