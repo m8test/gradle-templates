@@ -9,7 +9,7 @@ import kotlin.jvm.functions.Function1;
 
 import static com.m8test.script.GlobalVariables.*;
 
-class MyScript {
+class primary {
     public static void run() {
         // 这里写代码
         ToolB tool = new ToolB();
@@ -45,3 +45,5 @@ class MyScript {
         $activity.start();
     }
 }
+// 下面的语句中的 '//-m8test-remove' 在实际编译时会被删除，也就是将会改成 'primary.run();', 但是不能省略，否则 run 方法不会被执行
+//-m8test-remove primary.run();
