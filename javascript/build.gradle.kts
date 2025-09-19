@@ -80,6 +80,8 @@ m8testJavascript {
         addAsset("copyright.txt")
         // 脚本项目入口文件, 这里是相对于src目录的路径
         entry = "com/example/script/primary.js"
+        // 辅助脚本，会在入口文件中自动启动这些脚本, 需要是相对于src目录的路径
+        sides = mutableListOf("com/example/script/side1.js", "com/example/script/side2.js")
         // 脚本项目包名, 和java包名规则一样
         packageName = "com.example.script.javascript"
         // 脚本项目logo配置, 这里是相对于 res 目录的路径

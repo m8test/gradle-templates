@@ -19,19 +19,35 @@ try {
 }
 
 const projectConfigPath = path.resolve(__dirname, 'build/json/ProjectConfig.json');
-let primaryScript = '';
-let entryFilename = "";
+let primaryScriptConfig = null;
+let sideScriptsConfig = [];
 try {
     if (fs.existsSync(projectConfigPath)) {
         const configFileContent = fs.readFileSync(projectConfigPath, 'utf8');
         const config = JSON.parse(configFileContent);
         if (config.entry) {
-            entryFilename = config.entry.replace(/\\/g, '/');
-            primaryScript = './src/' + entryFilename;
-            console.log(`✅ Loaded entry point from ProjectConfig.json: ${primaryScript}`);
+            const entryPath = config.entry.replace(/\\/g, '/');
+            primaryScriptConfig = {
+                name: entryPath,
+                // Webpack 使用的相对路径
+                path: './src/' + entryPath
+            };
+            console.log(`✅ Loaded entry point: ${primaryScriptConfig.path}`);
         } else {
             console.warn(`⚠️ Warning: ProjectConfig.json found, but 'entry' property is missing.`);
         }
+
+        if (config.sides && Array.isArray(config.sides)) {
+            sideScriptsConfig = config.sides.map(sideFile => {
+                const sidePath = sideFile.replace(/\\/g, '/');
+                return {
+                    name: sidePath,
+                    path: './src/' + sidePath
+                };
+            });
+            console.log(`✅ Loaded ${sideScriptsConfig.length} side scripts.`);
+        }
+
     } else {
         console.warn(`⚠️ Warning: ProjectConfig.json not found.`);
     }
@@ -39,6 +55,7 @@ try {
     console.error(`❌ Error reading ProjectConfig.json: ${error}`);
 }
 
+// 递归查找所有JS文件的函数 (保持不变)
 function findAllJsFiles(dir) {
     let results = [];
     const list = fs.readdirSync(dir);
@@ -57,56 +74,61 @@ function findAllJsFiles(dir) {
 module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production';
 
-    // --- 3. 构造最终的保留名称列表 ---
     const webpackAndModuleReservedNames = ['require', 'module', 'exports'];
     const allReservedNames = [...reservedGlobalNames, 'Packages', ...webpackAndModuleReservedNames];
 
-    // --- 4. 配置插件 ---
     const plugins = [];
     if (isProduction) {
         console.log('✅ Applying JavaScript Obfuscator for production build.');
         plugins.push(
             new WebpackObfuscator({
-                // --- 关键修正 ---
-                renameGlobals: false,      // 必须为 false，以保护 $console, $activity 等
-                renameProperties: false,   // 必须为 false，以保护 .log, .toString 等 Java 对象方法
-
-                // --- 保留名称 (我们的“白名单”策略) ---
+                // ... 混淆器配置保持不变
+                renameGlobals: false,
+                renameProperties: false,
                 reservedNames: allReservedNames,
-
-                // --- 采取自参考配置的、安全且有效的选项 ---
-                identifierNamesGenerator: 'hexadecimal', // 将变量名替换为十六进制字符串 (如 _0xabc123)
-                stringArray: true,                       // 将所有字符串收集到一个数组中，通过索引引用
-                rotateStringArray: true,                 // 随机旋转字符串数组，增加破解难度
-                transformObjectKeys: true,               // 混淆对象键名
-                compact: true,                           // 压缩输出代码
-
-                // --- 注入僵尸代码以增加分析难度 ---
+                identifierNamesGenerator: 'hexadecimal',
+                stringArray: true,
+                rotateStringArray: true,
+                transformObjectKeys: true,
+                compact: true,
                 deadCodeInjection: true,
                 deadCodeInjectionThreshold: 0.4,
-
-                // --- 目标环境 (非常重要！) ---
-                // 'node' 环境会更好地保护 require/module/exports 结构，适用于 Webpack
                 target: 'node'
             }, [])
         );
     }
 
     const initScripts = findAllJsFiles(path.resolve(__dirname, 'init'));
-    const entryArray = primaryScript ? [...initScripts, primaryScript] : [...initScripts];
 
-    console.log('--- Bundling files in the following order: ---');
-    console.log(entryArray.join('\n'));
-    console.log('-------------------------------------------');
+    // --- 核心修改 1: 动态构建 entry 对象 ---
+    const entryPoints = {};
+
+    // 添加入口 (primary script)
+    if (primaryScriptConfig) {
+        entryPoints[primaryScriptConfig.name] = [...initScripts, primaryScriptConfig.path];
+    }
+
+    // 为每一个 side script 添加独立的入口
+    sideScriptsConfig.forEach(side => {
+        entryPoints[side.name] = [...initScripts, side.path];
+    });
+
+    console.log('--- Building the following independent entry points: ---');
+    for (const key in entryPoints) {
+        console.log(`  -> Entry '${key}.js' will be created from:`);
+        entryPoints[key].forEach(file => console.log(`     - ${file}`));
+    }
+    console.log('----------------------------------------------------');
 
     return {
         mode: isProduction ? 'production' : 'development',
-        entry: entryArray,
+        // 使用上面构建的 entry 对象
+        entry: entryPoints,
         output: {
-            filename: entryFilename || 'bundle.js',
+            // --- 核心修改 2: 使用 [name] 占位符来生成动态文件名 ---
+            filename: '[name]',
             path: path.resolve(__dirname, 'build/project/src'),
         },
-        // --- 5. 添加 Babel-Loader 用于 JS 降级 ---
         module: {
             rules: [
                 {
