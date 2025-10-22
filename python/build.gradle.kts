@@ -78,7 +78,7 @@ m8testPython {
         // 脚本项目入口文件, 这里是相对于src目录的路径
         entry = "python/com/example/script/primary.py"
         // 辅助脚本，会在入口文件中自动启动这些脚本, 需要是相对于src目录的路径
-        sides = mutableListOf("python/com/example/script/side1.py", "python/com/example/script/side2.py")
+//        sides = mutableListOf("python/com/example/script/side1.py", "python/com/example/script/side2.py")
         // 脚本项目包名, 和java包名规则一样
         packageName = "com.example.script.python"
         // 脚本项目logo配置, 这里是相对于 res 目录的路径
