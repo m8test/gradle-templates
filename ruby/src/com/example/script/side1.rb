@@ -1,33 +1,30 @@
 # encoding: utf-8
 # 获取事件订阅器，用于订阅事件
 subscriber = $events.getSubscriber()
-java_import "com.m8test.script.core.api.event.LocalSubscription"
-java_import "com.m8test.script.core.api.event.Event"
 # 通过订阅器订阅本地事件，本地事件指的是由和当前脚本具有同一个脚本引擎的脚本发送的事件
 subscriber.subscribeLocally(lambda {
-  # @type it [LocalSubscription]
+  # @type it [Java::com.m8test.script.core.api.event.LocalSubscription]
   |it|
   # 设置本地订阅的频道
   it.setChannel("subscription-channel")
   # 设置本地订阅的id
   it.setId("subscription-id")
 }) {
-  # @type it [Event]
+  # @type it [Java::com.m8test.script.core.api.event.Event]
   |it|
   # 当收到同一个引擎中的其他脚本发送的事件时，会执行下面的逻辑
   $console.log("收到事件", it.getData(), it.getTime(), it.getChannel())
 }
-java_import "com.m8test.script.core.api.event.GlobalSubscription"
 # 通过订阅器订阅全局事件，全局事件指的是所有其他脚本发送的事件
 subscriber.subscribeGlobally(lambda {
-  # @type it [GlobalSubscription]
+  # @type it [Java::com.m8test.script.core.api.event.GlobalSubscription]
   |it|
   # 设置全局订阅的频道
   it.setChannel("subscription-channel")
   # 设置全局订阅的id
   it.setId("subscription-id")
 }) {
-  # @type it [Event]
+  # @type it [Java::com.m8test.script.core.api.event.Event]
   |it|
   # 当收到其他脚本发送的事件时，会执行下面的逻辑
   $console.log("收到事件", it.getData(), it.getTime(), it.getChannel())

@@ -1,3 +1,5 @@
+# encoding: utf-8
+# 如果源代码中包含中文，那么就需要添加上面的编码语句
 # 通过java_import导入java类
 java_import 'java.lang.StringBuilder'
 java_import 'java.lang.System'
