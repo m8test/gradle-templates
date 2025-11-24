@@ -1,26 +1,41 @@
 -- 必须使用相对于src目录的路径
 local ToolB = require("com.example.tool.ToolB")
--- 引入 Button 类, 必须以 m8test_java 开头, 后面跟 java 类名
-local Button = require("m8test_java.android.widget.Button")
--- 引入内部类, 此写法能有代码提示, 需要通过 _N_ 来替换 $ , 因为 $ 在lua中不允许, 下面的代码实际是引入 android.widget.FrameLayout$LayoutParams 内部类
-local FrameLayoutLayoutParams = require("m8test_java.android.widget.FrameLayout_N_LayoutParams")
-local Gravity = require("m8test_java.android.view.Gravity")
-ToolB.methodB(_console)
-
-_androidView:create(true, function(frameLayout)
-    -- 需要注意的是, 这里的 newJavaObject是对应为java的构造方法, 通过gradle构建项目的时候这样使用为了可以有代码提示, 项目构建后会自动把:newJavaObject去掉
-    local button = Button:newJavaObject(frameLayout:getContext())
-    local num = 0
-    button:setText("hello")
-    button:setOnClickListener(function(view)
-        num = num + 1
-        button:setText("hello" .. num)
+ToolB.methodB(_G._console)
+_G._composeView:create(function(slot)
+    slot:Column(function(column)
+        -- 设置对齐方式为水平居中
+        column:setHorizontalAlignment(function(alignments)
+            return alignments:getCenterHorizontally()
+        end)
+        -- 设置排列方式为垂直居中
+        column:setVerticalArrangement(function(columnArrangements)
+            return columnArrangements:getCenter()
+        end)
+        -- 设置填充满整个父容器
+        column:setModifier(function(modifier)
+            modifier:fillMaxSize(1.0)
+        end)
+        column:setContent(function(columnSlot)
+            -- 1. 创建一个可变状态变量
+            local state = columnSlot:mutableStateOf(0)
+            columnSlot:Text(function(text)
+                -- 2. 让文本内容跟踪状态变量,当状态变量变化时,文本内容会自动更新
+                text:trackSingleState(state)
+                -- 3. 使用状态变量的值来设置文本内容
+                text:setText("点击次数" .. state:getValue())
+            end)
+            columnSlot:TextButton(function(textButton)
+                textButton:setContent(function(rowScopeSlot)
+                    rowScopeSlot:Text(function(text)
+                        text:setText("点击")
+                    end)
+                end)
+                textButton:setOnClick(function()
+                    -- 4. 点击按钮时,更新状态变量的值
+                    state:setValue(state:getValue() + 1)
+                end)
+            end)
+        end)
     end)
-    local lp = FrameLayoutLayoutParams:newJavaObject(FrameLayoutLayoutParams.WRAP_CONTENT,
-        FrameLayoutLayoutParams.WRAP_CONTENT)
-    -- 居中显示按钮
-    lp.gravity = Gravity.CENTER
-    -- 添加按钮到界面
-    frameLayout:addView(button, lp)
 end)
-_activity:start()
+_G._activity:start()
