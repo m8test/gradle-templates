@@ -4,25 +4,42 @@ let ToolB = require('com/example/tool/ToolB');
 const toolBInstance = new ToolB();
 // 调用 methodB 方法
 toolBInstance.methodB($console);
-// 创建脚本UI界面
-$androidView.create(true, (frameLayout) => {
-    let num = 0
-    // 创建按钮
-    let button = new Packages.android.widget.Button(frameLayout.getContext())
-    button.setText("测试按钮")
-    button.setOnClickListener({
-        onClick: function (view) {
-            num++
-            button.setText("测试按钮" + num)
-        }
+$composeView.create((slot) => {
+    // 1. 创建一个状态
+    let state = slot.mutableStateOf(0)
+    // 创建一个垂直布局
+    slot.Column((column) => {
+        // 设置垂直布局修饰器
+        column.setModifier((m) => {
+            // 设置垂直布局填充满屏幕
+            m.fillMaxSize(1.0)
+        })
+        // 水平居中对齐元素
+        column.setHorizontalAlignment((alignments) => { return alignments.getCenterHorizontally() })
+        // 垂直居中排列元素
+        column.setVerticalArrangement((arrangements) => { return arrangements.getCenter() })
+        column.setContent((columnSlot) => {
+            columnSlot.Text((text) => {
+                // 2. 追踪状态变化, 当状态变化时，文本会重新组合
+                text.trackSingleState(state)
+                // 3. 使用状态值设置文本内容
+                text.setText("点击次数: " + state.getValue())
+            })
+            columnSlot.TextButton((button) => {
+                // 设置按钮显示的内容
+                button.setContent((buttonSlot) => {
+                    // 设置按钮文本
+                    buttonSlot.Text((text) => {
+                        text.setText("点击我")
+                    })
+                })
+                button.setOnClick(() => {
+                    // 4. 点击按钮时，更新状态值
+                    state.setValue(state.getValue() + 1)
+                })
+            })
+        })
     })
-    let LP = Packages.android.widget.FrameLayout.LayoutParams
-    // 通过 `.` 直接访问java静态属性
-    let layoutParams = new LP(LP.WRAP_CONTENT, LP.WRAP_CONTENT)
-    // 设置按钮居中显示
-    layoutParams.gravity = Packages.android.view.Gravity.CENTER
-    // @ts-ignore 添加按钮到界面中
-    frameLayout.addView(button, layoutParams)
 })
 // 启动 android 活动用于展示脚本UI
 $activity.start()
