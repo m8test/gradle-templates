@@ -32,7 +32,7 @@ m8testJavascript {
 //                || packageName.startsWith("com.hjq.toast")
     }
     webpack {
-        isEnabled = true // 启用webpack,可以打包以及混淆项目
+        isEnabled = false // 启用webpack,可以打包以及混淆项目, 开始时推荐关闭，这样可以快速测试
         mode = "development" // 'development'(开发模式, 混淆关闭), 开发脚本时推荐使用此模式
 //        mode = "production" // 'production'(生产模式，混淆开启), 打包apk时推荐使用此模式
     }
