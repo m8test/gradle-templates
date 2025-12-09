@@ -63,6 +63,8 @@ m8testLua {
             // 开发工具下载地址
             downloadUrl =
                 "https://github.com/m8test/development-kit-release/releases/download/$versionName/com.m8test.app.developmentkit-release_$versionName.apk"
+            // api文档根目录
+            docsRoot = "https://sdk-docs.m8test.com/sdk"
         }
     }
     pullGlobalVariablesFileTimes = 10
@@ -94,6 +96,8 @@ m8testLua {
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
+            // api文档根目录
+            docsRoot = "https://yumimiyamoto.github.io/accessibility-release/app"
         }
         // 在脚本项目中引用 M8Test 组件
         requireComponent {
@@ -104,6 +108,8 @@ m8testLua {
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/ocr-release/releases/download/ocr-$version/com.m8test.ocr-release_$version.apk"
+            // api文档根目录
+            docsRoot = "https://yumimiyamoto.github.io/ocr-release/ocr"
         }
         // 在脚本项目中引用 M8Test 组件
         requireComponent {
@@ -114,6 +120,8 @@ m8testLua {
             // 组件下载地址
             url =
                 "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
+            // api文档根目录
+            docsRoot = "https://yumimiyamoto.github.io/opencv-release/image"
         }
     }
     // 工具相关配置
