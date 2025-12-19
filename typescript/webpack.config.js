@@ -1,6 +1,14 @@
 const path = require('path');
 const fs = require('fs');
 const WebpackObfuscator = require('webpack-obfuscator');
+// 直接引入tsconfig.json
+const tsconfig = require('./tsconfig.json');
+// 获取 outDir，如果不存在则给个默认值
+const tsOutDir = (tsconfig.compilerOptions && tsconfig.compilerOptions.outDir) || '';
+console.log('ts输出目录:', tsOutDir)
+const srcPath = './' + tsOutDir + '/src/'
+const initPath = './' + tsOutDir + '/init/'
+const libsPath = './' + tsOutDir + '/libs/'
 
 // --- 1. 读取全局变量和项目配置 (保持不变) ---
 const globalVariablesPath = path.resolve(__dirname, 'build/json/GlobalVariables.json');
@@ -30,7 +38,7 @@ try {
             primaryScriptConfig = {
                 name: entryPath,
                 // Webpack 使用的相对路径
-                path: './src/' + entryPath
+                path: srcPath + entryPath
             };
             console.log(`✅ Loaded entry point: ${primaryScriptConfig.path}`);
         } else {
@@ -42,7 +50,7 @@ try {
                 const sidePath = sideFile.replace(/\\/g, '/');
                 return {
                     name: sidePath,
-                    path: './src/' + sidePath
+                    path: srcPath + sidePath
                 };
             });
             console.log(`✅ Loaded ${sideScriptsConfig.length} side scripts.`);
@@ -98,7 +106,7 @@ module.exports = (env, argv) => {
         );
     }
 
-    const initScripts = findAllJsFiles(path.resolve(__dirname, 'init'));
+    const initScripts = findAllJsFiles(path.resolve(__dirname, initPath));
 
     // --- 核心修改 1: 动态构建 entry 对象 ---
     const entryPoints = {};
@@ -150,8 +158,8 @@ module.exports = (env, argv) => {
         },
         resolve: {
             modules: [
-                path.resolve(__dirname, 'src'),
-                path.resolve(__dirname, 'libs'),
+                path.resolve(__dirname, srcPath),
+                path.resolve(__dirname, libsPath),
                 'node_modules'
             ]
         },

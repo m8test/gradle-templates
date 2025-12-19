@@ -1,0 +1,4 @@
+node_modules/
+dist/
+# 由gradle自动生成，所以可以忽略
+tsconfig.json

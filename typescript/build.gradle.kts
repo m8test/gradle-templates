@@ -12,6 +12,13 @@ val opencvVersion: String by project
 val ocrVersion: String by project
 // m8testJavascript 闭包用于配置 m8test javascript 项目
 m8testJavascript {
+    // 表示项目是否使用typescript
+    isTypescript = true
+    // 用于配置gradle生成的 tsconfig.json 文件, 一般默认就可以了
+    typescript {
+        // 配置编译器选项, 一般使用默认的就行
+//        compilerOptions.outDir = "dist"
+    }
 //    properties["ADB_HOME"] = "/usr/bin/" // ADB安装目录
 //    properties["ADB_EXECUTABLE"] = "adb" // ADB可执行文件路径, 相对于 ADB_HOME
 //    properties["SCRCPY_HOME"] = "" // scrcpy安装目录, 如果不需要投屏的话可以不安装
@@ -130,8 +137,11 @@ m8testJavascript {
         // 测试文件的配置
         test {
             // key 为需要测试的文件路径，相对于模块根目录, value 为测试文件在设备中的路径
-            paths["build/test/test.js"] = "/sdcard/M8Test/test.js"
-            paths["build/test/test1.js"] = "/sdcard/M8Test/test1.js"
+//            paths["build/test/test.js"] = "/sdcard/M8Test/test.js"
+            // 如果测试文件在上面的路径没有代码提示可以将路径设置到src目录下, 这里写的时js路径，gradle会将js改成ts并将ts文件编译成js, 也就是 src/test/test.ts 编译后的 src/test/test.js 作为测试文件
+            paths["src/test/test.js"] = "/sdcard/M8Test/test.js"
+            // 也可以配置多个测试文件，不过一般一个就可以了
+//            paths["build/test/test1.js"] = "/sdcard/M8Test/test1.js"
         }
         // 端口转发，可以将安卓设备端的端口映射到电脑端
         portForwarding {

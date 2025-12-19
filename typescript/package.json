@@ -5,6 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "npx rimraf ./build/project/src",
+    "tsc:build": "npx tsc -p tsconfig.build.json",
+    "tsc": "tsc",
     "build": "npm run clean && webpack --mode production --config webpack.config.js",
     "dev": "npm run clean && webpack --mode development --config webpack.config.js",
     "watch": "webpack --mode development --watch --config webpack.config.js"
@@ -15,10 +17,12 @@
   "devDependencies": {
     "@babel/core": "^7.28.3",
     "@babel/preset-env": "^7.28.3",
+    "@types/node": "^25.0.3",
     "babel-loader": "^10.0.0",
     "core-js": "^3.45.0",
     "javascript-obfuscator": "^4.1.1",
     "rimraf": "^6.0.1",
+    "typescript": "^5.9.3",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1",
     "webpack-obfuscator": "^3.5.1"
