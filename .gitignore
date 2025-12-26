@@ -19,3 +19,4 @@ ruby/bin
 tsconfig.json
 .emmyrc.json
 /**/node_modules/
+typescript/**
