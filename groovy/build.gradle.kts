@@ -1,6 +1,6 @@
 plugins {
     // 使用 m8test groovy gradle 插件, 表示这是一个 m8test groovy 项目
-    alias(libs.plugins.m8test.groovy)
+    alias(m8test.plugins.m8test.gradle.script.groovy)
 }
 // 在gradle.properties中定义的变量, 用于指定m8test版本
 val m8testVersion: String by project
@@ -10,18 +10,19 @@ val accessibilityVersion: String by project
 val opencvVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定文字识别插件版本
 val ocrVersion: String by project
+// 语言插件版本
+val languagePluginVersion: String by project
 // m8testGroovy 闭包用于配置 m8test groovy 项目
 m8testGroovy {
-//    properties["ADB_HOME"] = "/usr/bin/" // ADB安装目录
-//    properties["ADB_EXECUTABLE"] = "adb" // ADB可执行文件路径, 相对于 ADB_HOME
-//    properties["SCRCPY_HOME"] = "" // scrcpy安装目录, 如果不需要投屏的话可以不安装
-//    properties["SCRCPY_EXECUTABLE"] = "" // scrcpy可执行文件路径, 相对于 SCRCPY_HOME
+    // 可选：显式指定宿主工具路径；未配置时从 Android SDK、PATH 和环境变量自动发现
+//    properties["ADB_PATH"] = "/opt/android-sdk/platform-tools/adb"
+//    properties["SCRCPY_PATH"] = "/usr/bin/scrcpy"
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
 //        adbDeviceSerial = "emulator-5554"
         // 安卓设备的ip地址, 这里是局域网的ip地址, 如果是云手机的话可能需要内网穿透, 这里的ip就需要填写有公网ip的服务器的ip地址
-        deviceIp = "192.168.31.157"
+        deviceIp = "192.168.31.13"
         // M8Test脚本项目根路径, 电脑端构建好的项目会推送到该路径对应的目录
         projectRoot = "/sdcard/M8Test/project"
         // 安卓设备的adb调试端口, 如果是云手机的话就需要填写内网穿透时映射的adb端口
@@ -69,41 +70,41 @@ m8testGroovy {
         // 脚本项目logo配置, 这里是相对于 res 目录的路径
         logo = "logo.png"
         // 在脚本项目中引用 M8Test 组件
-        requireComponent {
-            // 无障碍组件
-            name = "YumiMiyamotoAccessibility"
-            // 组件版本
-            version = accessibilityVersion
-            // 组件下载地址
-            url =
-                "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
-            // api文档根目录
-            docsRoot = "https://yumimiyamoto.github.io/accessibility-release/app"
-        }
-        // 在脚本项目中引用 M8Test 组件
-        requireComponent {
-            // ocr组件
-            name = "YumiMiyamotoOcr"
-            // 组件版本
-            version = ocrVersion
-            // 组件下载地址
-            url =
-                "https://github.com/YumiMiyamoto/ocr-release/releases/download/ocr-$version/com.m8test.ocr-release_$version.apk"
-            // api文档根目录
-            docsRoot = "https://yumimiyamoto.github.io/ocr-release/ocr"
-        }
-        // 在脚本项目中引用 M8Test 组件
-        requireComponent {
-            // opencv 图色组件
-            name = "YumiMiyamotoOpencv"
-            // 组件版本
-            version = opencvVersion
-            // 组件下载地址
-            url =
-                "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
-            // api文档根目录
-            docsRoot = "https://yumimiyamoto.github.io/opencv-release/image"
-        }
+//        requireComponent {
+//            // 无障碍组件
+//            name = "YumiMiyamotoAccessibility"
+//            // 组件版本
+//            version = accessibilityVersion
+//            // 组件下载地址
+//            url =
+//                "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
+//            // api文档根目录
+//            docsRoot = "https://yumimiyamoto.github.io/accessibility-release/app"
+//        }
+//        // 在脚本项目中引用 M8Test 组件
+//        requireComponent {
+//            // ocr组件
+//            name = "YumiMiyamotoOcr"
+//            // 组件版本
+//            version = ocrVersion
+//            // 组件下载地址
+//            url =
+//                "https://github.com/YumiMiyamoto/ocr-release/releases/download/ocr-$version/com.m8test.ocr-release_$version.apk"
+//            // api文档根目录
+//            docsRoot = "https://yumimiyamoto.github.io/ocr-release/ocr"
+//        }
+//        // 在脚本项目中引用 M8Test 组件
+//        requireComponent {
+//            // opencv 图色组件
+//            name = "YumiMiyamotoOpencv"
+//            // 组件版本
+//            version = opencvVersion
+//            // 组件下载地址
+//            url =
+//                "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
+//            // api文档根目录
+//            docsRoot = "https://yumimiyamoto.github.io/opencv-release/image"
+//        }
     }
     // 工具相关配置
     tools {
@@ -127,5 +128,13 @@ m8testGroovy {
 //            version = "0.1.2"
 //            url = "https://github.com/m8test/debugger/releases/download/$version/debugger-release-unsigned.apk"
 //        }
+    }
+    settingsConfig {
+        language {
+            properties["com.m8test.extension.id"] = "com.m8test.extension.language.groovy"
+            version = languagePluginVersion
+            url =
+                "https://github.com/m8test/language-release/releases/download/groovy-$version/com.m8test.groovy-release_$version.apk"
+        }
     }
 }

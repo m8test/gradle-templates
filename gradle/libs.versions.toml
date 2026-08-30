@@ -3,6 +3,5 @@
 [libraries]
 
 [plugins]
-m8test-groovy = { id = "com.m8test.gradle.groovy" }
 
 [bundles]
