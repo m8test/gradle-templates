@@ -71,6 +71,9 @@ m8testLua {
     settingsConfig {
         language {
             properties["com.m8test.extension.id"] = "com.m8test.extension.language.lua"
+            version = languagePluginVersion
+            url =
+                "https://github.com/m8test/language-release/releases/download/lua-\$version/com.m8test.lua-release_\$version.apk"
         }
     }
     // 脚本项目配置闭包
