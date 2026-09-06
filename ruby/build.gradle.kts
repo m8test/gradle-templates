@@ -10,6 +10,8 @@ val accessibilityVersion: String by project
 val opencvVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定文字识别插件版本
 val ocrVersion: String by project
+// 语言插件版本
+val languagePluginVersion: String by project
 // m8testRuby 闭包用于配置 m8test ruby 项目
 m8testRuby {
 //    properties["ADB_HOME"] = "/usr/bin/" // ADB安装目录
