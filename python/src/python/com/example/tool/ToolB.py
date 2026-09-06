@@ -1,9 +1,9 @@
-from m8test_java.com.m8test.script.core.api.console.Console import Console
+from m8test_java.com.m8test.script.core.api.logger.Logger import Logger
 from python.com.example.tool.ToolA import ToolA
 
 
 class ToolB:
-    def methodB(self, console: Console):
+    def methodB(self, logger: Logger):
         toolA = ToolA()
-        toolA.methodA(console)
-        console.log("Method B in ToolB called.")
+        toolA.methodA(logger)
+        logger.info("Method B in ToolB called.")
