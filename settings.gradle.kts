@@ -31,6 +31,7 @@ dependencyResolutionManagement {
         maven("https://jitpack.io")
     }
     versionCatalogs {
+        val m8testVersion = providers.gradleProperty("m8testVersion").get()
         create("m8test") {
             from("com.m8test:version-catalog:$m8testVersion")
         }
