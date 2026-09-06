@@ -68,6 +68,11 @@ m8testLua {
         }
     }
     pullGlobalVariablesFileTimes = 10
+    settingsConfig {
+        language {
+            properties["com.m8test.extension.id"] = "com.m8test.extension.language.lua"
+        }
+    }
     // 脚本项目配置闭包
     projectConfig {
         // 是否将插件(语言/组件)打包进脚项目中, 如果不将插件打包进脚本项目中，那么运行时会从网络下载需要的语言以及组件，但是需要确保能正常访问外网，这种方式打包速度快，推荐开发时使用这种方式;如果是打包成apk，推荐将插件打包进脚项目中, 这样交付给用户之后就可以直接使用，而无需从网络下载插件, 但是这样安装包会更大
