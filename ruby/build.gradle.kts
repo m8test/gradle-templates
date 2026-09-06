@@ -63,6 +63,9 @@ m8testRuby {
     settingsConfig {
         language {
             properties["com.m8test.extension.id"] = "com.m8test.extension.language.ruby"
+            version = languagePluginVersion
+            url =
+                "https://github.com/m8test/language-release/releases/download/ruby-$version/com.m8test.ruby-release_$version.apk"
         }
     }
     // 脚本项目配置闭包
