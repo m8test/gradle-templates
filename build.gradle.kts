@@ -13,18 +13,9 @@ buildscript {
         val properties = java.util.Properties().apply {
             java.io.FileInputStream(File(rootDir, "gradle.properties")).use { load(it) }
         }
-        maven {
-            url =
-                uri(
-                    "https://raw.githubusercontent.com/m8test/development-environment/refs/heads/v${
-                        properties.getProperty("m8testGradleVersion")
-                    }/"
-                )
-        }
     }
     dependencies {
-        val m8testGradleVersion: String by project
-        classpath("com.m8test:gradle-plugin:${m8testGradleVersion}")
+        classpath(m8test.m8test.gradle)
     }
 }
 //apply(plugin = libs.plugins.m8test.groovy.get().pluginId)
