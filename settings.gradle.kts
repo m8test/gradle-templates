@@ -17,6 +17,7 @@ pluginManagement {
     }
 }
 
+val m8testVersion: String by settings
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -28,6 +29,11 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
         maven("https://jitpack.io")
+    }
+    versionCatalogs {
+        create("m8test") {
+            from("com.m8test:version-catalog:$m8testVersion")
+        }
     }
 }
 
