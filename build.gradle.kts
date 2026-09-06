@@ -13,14 +13,6 @@ buildscript {
         val properties = java.util.Properties().apply {
             java.io.FileInputStream(File(rootDir, "gradle.properties")).use { load(it) }
         }
-        maven {
-            url =
-                uri(
-                    "https://raw.githubusercontent.com/m8test/development-environment/refs/heads/v${
-                        properties.getProperty("m8testGradleVersion")
-                    }/"
-                )
-        }
     }
     dependencies {
         classpath(m8test.m8test.gradle)
