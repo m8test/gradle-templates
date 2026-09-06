@@ -36,4 +36,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "m8test-gradle-templates"
-include(":ruby")
+include(":java")
