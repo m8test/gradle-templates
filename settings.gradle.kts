@@ -29,6 +29,9 @@ dependencyResolutionManagement {
         google()
         maven("https://jitpack.io")
     }
+    versionCatalogs {
+        create("m8test") { from("com.m8test:version-catalog:$m8testVersion") }
+    }
 }
 
 rootProject.name = "m8test-gradle-templates"
