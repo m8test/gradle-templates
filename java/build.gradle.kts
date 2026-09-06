@@ -77,6 +77,7 @@ m8testJava {
         requireComponent {
             // 无障碍组件
             name = "YumiMiyamotoAccessibility"
+            properties["com.m8test.extension.id"] = "com.m8test.extension.component.accessibility"
             // 组件版本
             version = accessibilityVersion
             // 组件下载地址
@@ -89,6 +90,7 @@ m8testJava {
         requireComponent {
             // ocr组件
             name = "YumiMiyamotoOcr"
+            properties["com.m8test.extension.id"] = "com.m8test.extension.component.ocr"
             // 组件版本
             version = ocrVersion
             // 组件下载地址
@@ -101,6 +103,7 @@ m8testJava {
         requireComponent {
             // opencv 图色组件
             name = "YumiMiyamotoOpencv"
+            properties["com.m8test.extension.id"] = "com.m8test.extension.component.image"
             // 组件版本
             version = opencvVersion
             // 组件下载地址
