@@ -1,6 +1,6 @@
 plugins {
     // 使用 m8test javascript gradle 插件, 表示这是一个 m8test javascript 项目
-    alias(libs.plugins.m8test.javascript)
+    alias(m8test.plugins.m8test.gradle.script.javascript)
 }
 // 在gradle.properties中定义的变量, 用于指定m8test版本
 val m8testVersion: String by project
