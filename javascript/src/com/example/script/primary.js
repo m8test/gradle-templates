@@ -3,7 +3,7 @@ let ToolB = require('com/example/tool/ToolB');
 // 创建 ToolB 实例
 const toolBInstance = new ToolB();
 // 调用 methodB 方法
-toolBInstance.methodB($console);
+toolBInstance.methodB($logger);
 $composeView.create((slot) => {
     // 1. 创建一个状态
     let state = slot.remember(() => slot.mutableStateOf(0))

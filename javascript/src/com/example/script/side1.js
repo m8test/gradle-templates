@@ -2,11 +2,11 @@
 let subscriber = $events.getSubscriber();
 // 当前事件 API 通过 scope 和 channel 订阅，不再通过可变配置对象设置频道。
 subscriber.subscribe(scopes => scopes.getScript(), "subscription-channel", function (event) {
-    $console.log("收到本地事件", event.getPayload().getStringOrNull("data"),
+    $logger.info("收到本地事件", event.getPayload().getStringOrNull("data"),
         event.getTimeMillis(), event.getChannel())
 })
 subscriber.subscribe(scopes => scopes.getApp(), "subscription-channel", function (event) {
-    $console.log("收到全局事件", event.getPayload().getStringOrNull("data"),
+    $logger.info("收到全局事件", event.getPayload().getStringOrNull("data"),
         event.getTimeMillis(), event.getChannel())
 })
 // 获取脚本主线程

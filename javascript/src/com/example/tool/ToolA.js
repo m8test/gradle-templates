@@ -2,10 +2,10 @@
 function ToolA() {
     // ToolA调用ToolB的方法
     /**
-     * @param {Packages.com.m8test.script.core.api.console.Console} console
+     * @param {Packages.com.m8test.script.core.api.logger.Logger} logger
      */
-    this.methodA = function (console) {
-        console.log("Method A in ToolA called.");
+    this.methodA = function (logger) {
+        logger.info("Method A in ToolA called.");
     };
 }
 
