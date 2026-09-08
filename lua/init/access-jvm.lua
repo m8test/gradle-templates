@@ -1,4 +1,5 @@
 -- 通过 res 中的 Java 7/8 测试类验证动态 JVM 访问。
+_logger:info("access-jvm", "init started")
 local dynamicJava = _files:buildFile(function(builder)
     builder:setRelativePath("", "res/com/example/script/DynamicJvmAccess.java")
 end)
@@ -54,3 +55,4 @@ _logger:info("dynamic.map", DynamicJvmAccess:map("answer", 42))
 DynamicJvmAccess:runRunnable(function()
     _logger:info("dynamic.sam", "Runnable invoked")
 end)
+_logger:info("access-jvm", "init completed")
