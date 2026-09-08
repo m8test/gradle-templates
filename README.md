@@ -85,5 +85,11 @@
    编写代码并保存后，执行 `runLua` 任务，即可在安卓设备上运行脚本项目。确保安卓设备已开启 ADB 调试。运行日志可在
    M8Test 日志面板中查看。
 
-4. **打包Apk**  
+   `runLua` 会先生成并推送 `build/project`（BuildProjectSource），等待 BuildScript 完成后，再启动独立的 LuaKotlin ProjectScript。模板使用标准 Lua Extension ID `com.m8test.extension.language.lua` 和 capability ID `com.m8test.capability.language.lua`；实际运行 artifact 来自 `luakt` 模块。
+
+4. **BuildProjectSource 与 ProjectScript**
+
+   Lua 的 `settings.lua`、`init.build.lua` 和 `build.lua` 属于 BuildScript 阶段。BuildScript 成功后生成最终 SPA，再由独立 ProjectScript 执行 `init`、入口和 side。每次 `rerunLua` 都会创建新的 Lua Globals、Java bridge、require 环境和 Script 生命周期。
+
+5. **打包Apk**
    所有的脚本开发工作都完整后, 如果你需要打包成独立的apk可以执行 `buildLuaApk` 任务。

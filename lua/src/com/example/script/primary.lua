@@ -13,14 +13,15 @@ _G._composeView:create(function(slot)
         end)
         -- 设置填充满整个父容器
         column:setModifier(function(modifier)
-            modifier:fillMaxSize(1.0)
+            return modifier:fillMaxSize(1.0)
         end)
         column:setContent(function(columnSlot)
             -- 1. 创建一个可变状态变量
-            local state = columnSlot:mutableStateOf(0)
+            local state = columnSlot:remember(function()
+                return columnSlot:mutableStateOf(0)
+            end)
             columnSlot:Text(function(text)
                 -- 2. 让文本内容跟踪状态变量,当状态变量变化时,文本内容会自动更新
-                text:trackSingleState(state)
                 -- 3. 使用状态变量的值来设置文本内容
                 text:setText("点击次数" .. state:getValue())
             end)
