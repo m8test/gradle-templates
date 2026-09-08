@@ -79,5 +79,23 @@
 3. **编写并运行脚本**  
    编写代码保存后，执行`runGroovy`任务在安卓设备上运行项目（需提前开启ADB调试），运行日志可在M8Test日志面板查看。
 
+   `runGroovy` 会先生成并推送 `build/project`（BuildProjectSource），等待 BuildScript 完成后，再启动独立的 Groovy ProjectScript。模板声明的 Extension 版本必须与 Groovy 工程最近一次 `debugReinstallExtension` 写入 `~/.m8test/cache/apk/extension` 的版本一致。
+
 4. **打包Apk**  
    所有的脚本开发工作都完整后, 如果你需要打包成独立的apk可以执行 `buildGroovyApk` 任务。
+
+## BuildProjectSource 与外置 Groovy Extension
+
+Groovy 模板使用 `isPluginsBundled = false`，由 Development Kit 从
+`com.m8test.extension.language.groovy` 的本地 Extension cache 解析语言 APK。
+`com.m8test.capability.language.groovy` 是运行时 capability ID；它与 Extension
+ID 的作用不同，不能互换。
+
+`runGroovy` 会把项目转换为 BuildProjectSource，执行 `settings.groovy`、
+`init.build.groovy` 和 `build.groovy`，再生成 `project.config.json`。Build 完成后
+才启动独立的 Groovy ProjectScript。入口使用当前 Compose bridge，side 使用当前
+事件 scope/payload API。
+
+`.groovy` 是 Groovy 文件类型 descriptor；最终 SPA 根目录直接包含
+`project.config.json`、`src/`、`init/`、`lib/`、`res/`、`webview/` 和可选的
+`extension/`，`build/spa/files` 只是打包 staging 目录。

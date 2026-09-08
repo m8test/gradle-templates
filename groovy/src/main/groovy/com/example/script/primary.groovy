@@ -1,26 +1,22 @@
 package com.example.script
 
-import android.view.Gravity
-import android.widget.Button
 import com.example.tool.ToolB
-
-import static android.widget.FrameLayout.LayoutParams
 
 ToolB tool = new ToolB()
 tool.methodB($console)
-$androidView.create(true) {
-    def button = new Button(it.getContext())
-    def num = 0
-    button.setText("Hello")
-    // 点击按钮时更改按钮文字
-    button.setOnClickListener {
-        num += 1
-        button.setText("Hello" + num)
+$composeView.create { slot ->
+    def state = slot.remember { slot.mutableStateOf(0) }
+    slot.Column { column ->
+        column.setModifier { modifier -> modifier.fillMaxSize(1.0f) }
+        column.setHorizontalAlignment { alignments -> alignments.getCenterHorizontally() }
+        column.setVerticalArrangement { arrangements -> arrangements.getCenter() }
+        column.setContent { content ->
+            content.Text { text -> text.setText("点击次数: " + state.getValue()) }
+            content.TextButton { button ->
+                button.setContent { row -> row.Text { text -> text.setText("点击我") } }
+                button.setOnClick { state.setValue(state.getValue() + 1) }
+            }
+        }
     }
-    def lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-    // 设置按钮居中显示
-    lp.gravity = Gravity.CENTER
-    // 添加按钮到界面
-    it.addView(button, lp)
 }
 $activity.start()
