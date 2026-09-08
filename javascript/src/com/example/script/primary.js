@@ -6,13 +6,13 @@ const toolBInstance = new ToolB();
 toolBInstance.methodB($console);
 $composeView.create((slot) => {
     // 1. 创建一个状态
-    let state = slot.mutableStateOf(0)
+    let state = slot.remember(() => slot.mutableStateOf(0))
     // 创建一个垂直布局
     slot.Column((column) => {
         // 设置垂直布局修饰器
         column.setModifier((m) => {
             // 设置垂直布局填充满屏幕
-            m.fillMaxSize(1.0)
+            return m.fillMaxSize(1.0)
         })
         // 水平居中对齐元素
         column.setHorizontalAlignment((alignments) => { return alignments.getCenterHorizontally() })
@@ -20,9 +20,7 @@ $composeView.create((slot) => {
         column.setVerticalArrangement((arrangements) => { return arrangements.getCenter() })
         column.setContent((columnSlot) => {
             columnSlot.Text((text) => {
-                // 2. 追踪状态变化, 当状态变化时，文本会重新组合
-                text.trackSingleState(state)
-                // 3. 使用状态值设置文本内容
+                // 使用状态值设置文本内容；Compose 绑定会在读取状态时自动追踪重组
                 text.setText("点击次数: " + state.getValue())
             })
             columnSlot.TextButton((button) => {
@@ -34,7 +32,7 @@ $composeView.create((slot) => {
                     })
                 })
                 button.setOnClick(() => {
-                    // 4. 点击按钮时，更新状态值
+                    // 点击按钮时，更新状态值
                     state.setValue(state.getValue() + 1)
                 })
             })

@@ -112,5 +112,42 @@
    编写代码并保存后，执行 `runJavascript` 任务，即可在安卓设备上运行脚本项目。确保安卓设备已开启 ADB 调试。运行日志可在
    M8Test 日志面板中查看。
 
+   `run<Language>` 会先生成并推送 `build/project`（BuildProjectSource），等待构建脚本完成后，再启动独立的项目入口脚本。
+   `settings.config.yaml` 中的语言 `properties`（尤其是 `com.m8test.extension.id`）由语言 Gradle 插件生成，模板不应手动复制。
+
 7. **打包Apk**  
    所有的脚本开发工作都完整后, 如果你需要打包成独立的apk可以执行 `buildJavascriptApk` 任务。
+
+## BuildProjectSource 与 SPA 目录
+
+JavaScript 模板的开发目录是：
+
+```text
+javascript/
+├── build.gradle.kts       # JavaScript Gradle 插件和项目配置
+├── settings.gradle.kts
+├── init/                   # 入口前执行的初始化脚本
+├── src/                    # JavaScript 入口、side 和项目源码
+├── res/                    # logo、自动启动标记等资源
+├── webview/                # WebView 静态资源
+└── build/                  # BuildProjectSource、构建中间产物和 SPA 输出
+```
+
+`runJavascript` 会把语言项目转换为 `build/project`，并推送为 Development Kit 的 BuildProjectSource。BuildScript 先执行 `settings.js`、`init.build.js` 和 `build.js`，再生成 `project.config.json`；配置中的 `entry`、`sides` 相对于 `src/`，初始化脚本相对于 `init/`。Build 完成后才启动独立的 JavaScript ProjectScript。
+
+最终 SPA 的根目录不是 `build/spa/files`，后者只是临时 staging 目录。SPA 解包后应直接包含：
+
+```text
+project.spa/
+├── project.config.json
+├── src/                    # primary.js、side*.js 和项目源码
+├── init/                   # 例如 access-jvm.js
+├── lib/
+├── res/
+├── webview/
+└── extension/              # 启用 bundled Extension 时出现
+```
+
+`init/access-jvm.js` 是展示 Rhino 通过 `Packages` 访问 Java 类的示例，必须在入口脚本前执行并保留。SPA 根目录不能出现重复的 `com/example/...` 或顶层 `access-jvm.js`；这些文件分别应位于 `src/` 和 `init/` 下。
+
+模板中的 `sides` 示例包含 `side1.js` 和 `side2.js`。执行 `runJavascript` 时，Runtime 会启动一个主 ProjectScript 和两个独立的 side ProjectScript（显示为 `project`、`project.side0`、`project.side1`）；这不是任务被执行了三次。删除或清空 `projectConfig.sides` 后才会变成单一入口项目。
