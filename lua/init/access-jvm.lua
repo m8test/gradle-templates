@@ -1,39 +1,56 @@
--- 引入java类, 必须以 m8test_java 开头, 后面跟 java 类名
-local StringBuilder = require("m8test_java.java.lang.StringBuilder")
-local JavaTypeTester = require("m8test_java.com.m8test.script.core.impl.JavaTypeTester")
--- 创建java对象, 可以通过 newJavaObject 方法, 实际上会修改为 local sb = StringBuilder("M8Test")
-local sb = StringBuilder:newJavaObject("M8Test")
--- 通过':'调用java对象方法
-sb:append("Lua")
-_console:log(sb:toString())
--- 通过'.'调用java对象属性
-_console:log(JavaTypeTester().OBJECT_FIELD)
-local System = require("m8test_java.java.lang.System")
--- 通过':'调用java静态方法
-_console:log(System:currentTimeMillis())
--- 通过'.'调用静态属性
-_console:log(JavaTypeTester.STATIC_FIELD)
--- 引入内部类, 此写法能有代码提示, 需要通过 _N_ 来替换 $ , 因为 $ 在lua中不允许, 下面的代码实际是引入 android.widget.FrameLayout$LayoutParams 内部类
-local FrameLayoutLayoutParams = require("m8test_java.android.widget.FrameLayout_N_LayoutParams")
-_console:log(FrameLayoutLayoutParams)
--- 实现java非功能性接口
-JavaTypeTester:setMultiAbstractMethodInterface({
-    setInt = function(i)
-        _console:log("setInt" .. i)
-    end,
-    getInt = function()
-        _console:log("getInt")
-        return 0
-    end,
-    new = function() end
-})
-local mami = JavaTypeTester:getMultiAbstractMethodInterface()
-mami:setInt(1234)
-_console:log(mami:getInt())
--- 实现java功能新接口, 可以直接传递 function
-JavaTypeTester:setSingleAbstractMethodInterface(function()
-    _console:log("getInt")
-    return 0
+-- 通过 res 中的 Java 7/8 测试类验证动态 JVM 访问。
+local dynamicJava = _files:buildFile(function(builder)
+    builder:setRelativePath("", "res/com/example/script/DynamicJvmAccess.java")
 end)
-local sami = JavaTypeTester:getSingleAbstractMethodInterface()
-_console:log(sami:getInt())
+_extensions:loadJavaFile(dynamicJava)
+local DynamicJvmAccess = require("m8test_java.com.example.script.DynamicJvmAccess")
+
+local StringBuilder = require("m8test_java.java.lang.StringBuilder")
+local System = require("m8test_java.java.lang.System")
+local FrameLayoutLayoutParams = require("m8test_java.android.widget.FrameLayout_N_LayoutParams")
+
+local sb = StringBuilder:newJavaObject("M8Test")
+sb:append("Lua")
+_logger:info("StringBuilder", sb:toString())
+_logger:info("currentTimeMillis", System:currentTimeMillis())
+_logger:info("LayoutParams class", FrameLayoutLayoutParams)
+
+_logger:info("dynamic.KIND", DynamicJvmAccess.KIND)
+_logger:info("dynamic.add", DynamicJvmAccess:add(2, 3))
+_logger:info("dynamic.byte", DynamicJvmAccess:echoByte(8))
+_logger:info("dynamic.short", DynamicJvmAccess:echoShort(16))
+_logger:info("dynamic.int", DynamicJvmAccess:echoInt(32))
+_logger:info("dynamic.long", DynamicJvmAccess:echoLong(64))
+_logger:info("dynamic.float", DynamicJvmAccess:echoFloat(1.25))
+_logger:info("dynamic.double", DynamicJvmAccess:echoDouble(2.5))
+_logger:info("dynamic.char", DynamicJvmAccess:echoChar(string.byte("Z")))
+_logger:info("dynamic.boolean", DynamicJvmAccess:echoBoolean(true))
+_logger:info("dynamic.byteBoxed", DynamicJvmAccess:echoByteBoxed(9))
+_logger:info("dynamic.intBoxed", DynamicJvmAccess:echoIntBoxed(33))
+_logger:info("dynamic.longBoxed", DynamicJvmAccess:echoLongBoxed(34))
+_logger:info("dynamic.floatBoxed", DynamicJvmAccess:echoFloatBoxed(1.5))
+_logger:info("dynamic.doubleBoxed", DynamicJvmAccess:echoDoubleBoxed(2.5))
+_logger:info("dynamic.charBoxed", DynamicJvmAccess:echoCharBoxed(string.byte("Q")))
+_logger:info("dynamic.booleanBoxed", DynamicJvmAccess:echoBooleanBoxed(false))
+_logger:info("dynamic.join", DynamicJvmAccess:join("甲", "乙"))
+_logger:info("dynamic.identity", DynamicJvmAccess:identity("对象"))
+_logger:info("dynamic.nullable", DynamicJvmAccess:nullable(nil))
+_logger:info("dynamic.date", DynamicJvmAccess:date())
+_logger:info("dynamic.calendar", DynamicJvmAccess:calendar())
+_logger:info("dynamic.bigInteger", DynamicJvmAccess:bigInteger())
+_logger:info("dynamic.bigDecimal", DynamicJvmAccess:bigDecimal())
+_logger:info("dynamic.byteArrayLength", DynamicJvmAccess:byteArrayLength(_arrays:byteArrayOf(1, 2, 3)))
+_logger:info("dynamic.sumInts", DynamicJvmAccess:sumInts(_arrays:intArrayOf(1, 2, 3)))
+_logger:info("dynamic.sumLongs", DynamicJvmAccess:sumLongs(_arrays:longArrayOf(4, 5)))
+_logger:info("dynamic.listSize", DynamicJvmAccess:listSize(_iterables:listOf("x", "y")))
+_logger:info("dynamic.setSize", DynamicJvmAccess:setSize(_iterables:setOf("x", "y")))
+_logger:info("dynamic.mapValue", DynamicJvmAccess:mapValue(_maps:mapOf(_maps:pairOf("answer", 42)), "answer"))
+_logger:info("dynamic.varargs", DynamicJvmAccess:varargs("left", "right"))
+_logger:info("dynamic.intArrayRoundtrip", DynamicJvmAccess:sumInts(DynamicJvmAccess:ints(4, 5)))
+_logger:info("dynamic.ints", DynamicJvmAccess:ints(4, 5))
+_logger:info("dynamic.strings", DynamicJvmAccess:strings("a", "b"))
+_logger:info("dynamic.list", DynamicJvmAccess:list("x", "y"))
+_logger:info("dynamic.map", DynamicJvmAccess:map("answer", 42))
+DynamicJvmAccess:runRunnable(function()
+    _logger:info("dynamic.sam", "Runnable invoked")
+end)

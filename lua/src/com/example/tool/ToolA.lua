@@ -1,5 +1,5 @@
 local ToolA = {}
-function ToolA.methodA(console)
-    console:log("Method A in ToolA called.")
+function ToolA.methodA(logger)
+    logger:info("Method A in ToolA called.")
 end
 return ToolA

@@ -8,7 +8,7 @@ subscriber:subscribeLocally(function(it)
     it:setId("subscription-id")
 end, function(it)
     -- 当收到同一个引擎中的其他脚本发送的事件时，会执行下面的逻辑
-    _console:log("收到事件", it:getData(), it:getTime(), it:getChannel())
+    _logger:info("收到事件", it:getData(), it:getTime(), it:getChannel())
 end)
 -- 通过订阅器订阅全局事件，全局事件指的是所有其他脚本发送的事件
 subscriber:subscribeGlobally(function(it)
@@ -18,7 +18,7 @@ subscriber:subscribeGlobally(function(it)
     it:setId("subscription-id")
 end, function(it)
     -- 当收到其他脚本发送的事件时，会执行下面的逻辑
-    _console:log("收到事件", it:getData(), it:getTime(), it:getChannel())
+    _logger:info("收到事件", it:getData(), it:getTime(), it:getChannel())
 end)
 -- 获取脚本主线程
 local mainThread = _script:getThreads():getMain()

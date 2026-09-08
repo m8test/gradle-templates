@@ -1,6 +1,6 @@
 -- 必须使用相对于src目录的路径
 local ToolB = require("com.example.tool.ToolB")
-ToolB.methodB(_G._console)
+ToolB.methodB(_G._logger)
 _G._composeView:create(function(slot)
     slot:Column(function(column)
         -- 设置对齐方式为水平居中
