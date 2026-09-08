@@ -94,8 +94,11 @@ ID 的作用不同，不能互换。
 `runGroovy` 会把项目转换为 BuildProjectSource，执行 `settings.groovy`、
 `init.build.groovy` 和 `build.groovy`，再生成 `project.config.json`。Build 完成后
 才启动独立的 Groovy ProjectScript。入口使用当前 Compose bridge，side 使用当前
-事件 scope/payload API。
+事件 scope/payload API；脚本日志统一通过 `$logger` 输出六级日志。
 
 `.groovy` 是 Groovy 文件类型 descriptor；最终 SPA 根目录直接包含
 `project.config.json`、`src/`、`init/`、`lib/`、`res/`、`webview/` 和可选的
 `extension/`，`build/spa/files` 只是打包 staging 目录。
+
+Groovy 模板的主脚本、side 脚本和工具类都使用 `$logger`/`Logger`，不再依赖旧的
+`$console`、`Console` 或 `.log` 入口。

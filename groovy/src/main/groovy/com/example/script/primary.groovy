@@ -3,7 +3,7 @@ package com.example.script
 import com.example.tool.ToolB
 
 ToolB tool = new ToolB()
-tool.methodB($console)
+tool.methodB($logger)
 $composeView.create { slot ->
     def state = slot.remember { slot.mutableStateOf(0) }
     slot.Column { column ->
