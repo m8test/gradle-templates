@@ -79,5 +79,26 @@
 3. **编写并运行脚本**  
    编写代码保存后，执行`runJava`任务在安卓设备上运行项目（需提前开启ADB调试），运行日志可在M8Test日志面板查看。
 
+   `runJava` 会先生成并推送 `build/project`（BuildProjectSource），等待 BuildScript 完成后，再启动独立的 Janino 项目入口脚本。`settings.config.yaml` 中的语言 `properties`（尤其是 `com.m8test.extension.id`）由语言 Gradle 插件生成。
+
 4. **打包Apk**  
    所有的脚本开发工作都完整后, 如果你需要打包成独立的apk可以执行 `buildJavaApk` 任务。
+
+## BuildProjectSource 与 SPA 目录
+
+Java 模板的开发目录是：
+
+```text
+java/
+├── build.gradle.kts       # Java/Janino Gradle 插件和项目配置
+├── src/main/java/         # 带 package 的 IDE 源码，构建时转换为 .javas
+├── src/main/resources/    # logo、自动启动标记等资源
+├── webview/                # WebView 静态资源
+└── build/                  # BuildProjectSource、构建中间产物和 SPA 输出
+```
+
+`runJava` 会把 Java 项目转换为 `build/project`，并推送为 Development Kit 的 BuildProjectSource。BuildScript 先执行 `settings.javas`、`init.build.javas` 和 `build.javas`，再生成 `project.config.json`；配置中的 `entry`、`sides` 相对于 `src/`。`.java` 文件用于代码提示，设备端执行文件使用 `.javas`，这是模板约定的 Java 脚本形式。
+
+最终 SPA 的根目录不是 `build/spa/files`，后者只是临时 staging 目录。SPA 解包后应直接包含 `project.config.json`、`src/`、`init/`、`lib/`、`res/`、`webview/` 和可选的 `extension/`。
+
+Java 入口使用 Janino 执行，并通过 `ComposeView` 创建脚本 UI。模板中的 `sides` 是独立 side 脚本入口；它们与主入口共享同一 Engine，但不会重复启动主项目。
