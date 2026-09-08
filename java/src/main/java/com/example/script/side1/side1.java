@@ -2,7 +2,7 @@ package com.example.script.side1;
 
 import static com.m8test.script.GlobalVariables.*;
 
-class test {
+class side1 {
     public static void run() {
         var subscriber = $events.getSubscriber();
         subscriber.subscribe(scopes -> scopes.getScript(), "subscription-channel", event -> {
@@ -15,4 +15,4 @@ class test {
         });
     }
 }
-//-m8test-remove test.run();
+//-m8test-remove side1.run();

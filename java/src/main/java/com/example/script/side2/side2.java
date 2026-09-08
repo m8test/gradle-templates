@@ -2,7 +2,7 @@ package com.example.script.side2;
 
 import static com.m8test.script.GlobalVariables.*;
 
-class test1 {
+class side2 {
     public static void run() {
         var publisher = $events.getPublisher();
         publisher.publish(scopes -> scopes.getScript(), "subscription-channel", payload -> {
@@ -13,4 +13,4 @@ class test1 {
         });
     }
 }
-//-m8test-remove test1.run();
+//-m8test-remove side2.run();
