@@ -26,17 +26,17 @@ $composeView->create(function ($slot) {
         });
         // 设置布局填满父容器
         $column->setModifier(function ($modifier) {
-            $modifier->fillMaxSize(1.0);
+            return $modifier->fillMaxSize(1.0);
         });
         // 设置垂直布局的内容
         $column->setContent(function ($columnSlot) {
             // 1. 创建状态
-            $state = $columnSlot->mutableStateOf(0);
+            $state = $columnSlot->remember(function () use ($columnSlot) {
+                return $columnSlot->mutableStateOf(0);
+            });
             $columnSlot->Text(function ($text) use ($state) {
-                // 2. 跟踪状态变化， 当状态变化时， 自动更新文本内容
-                $text->trackSingleState($state);
-                // 3. 在文本的内容中显示状态的值
-                $text->setText(javaString("点击次数:") . $state->getValue());
+                // 2. 组合期间读取状态，状态变化时自动重组
+                $text->setText("点击次数:" . $state->getValue());
             });
             $columnSlot->TextButton(function ($button) use ($state) {
                 $button->setOnClick(function () use ($state) {
@@ -45,7 +45,7 @@ $composeView->create(function ($slot) {
                 });
                 $button->setContent(function ($buttonSlot) {
                     $buttonSlot->Text(function ($text) {
-                        $text->setText(javaString("点击"));
+                        $text->setText("点击");
                     });
                 });
             });

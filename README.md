@@ -85,5 +85,11 @@
    编写代码并保存后，执行 `runPhp` 任务，即可在安卓设备上运行脚本项目。确保安卓设备已开启 ADB 调试。运行日志可在
    M8Test 日志面板中查看。
 
-4. **打包Apk**  
+   `runPhp` 会先生成并推送 `build/project`（BuildProjectSource），等待 BuildScript 成功后，再启动独立的 PHP ProjectScript。模板使用标准 PHP Extension ID `com.m8test.extension.language.php` 和 capability ID `com.m8test.capability.language.php`。
+
+4. **BuildProjectSource 与 ProjectScript**
+
+   PHP 的 `settings.php`、`init.build.php` 和 `build.php` 属于 BuildScript 阶段。BuildScript 成功后生成最终 SPA，再由独立 ProjectScript 执行 `init`、入口和 side。每次 `rerunPhp` 都会创建新的 Quercus Engine、Env 和 Script 生命周期。
+
+5. **打包Apk**
    所有的脚本开发工作都完整后, 如果你需要打包成独立的apk可以执行 `buildPhpApk` 任务。
