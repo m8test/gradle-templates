@@ -12,4 +12,4 @@
 - [x] `rerunGroovy` 使用新 run/lease/classpath，长期运行项目不被测试清理逻辑删除。
 - [x] 只要求 debug Development Kit/Extension；release/R8 另立门禁。
 
-验证记录：在真实设备 `192.168.31.13:5555` 上执行 `./gradlew -q :groovy:runGroovy`；设备日志确认 `BUILD SUCCESSFUL`、`compileGroovySrc`、`SIDE1_STARTED`、`SIDE2_STARTED`、`SIDE1_SUBSCRIBED`、`SIDE2_PUBLISHED` 和 `SIDE1_GLOBAL_EVENT`。
+验证记录：在真实设备上执行 `./gradlew -q :groovy:runGroovy`；设备日志确认 `BUILD SUCCESSFUL`、`compileGroovySrc`、`SIDE1_STARTED`、`SIDE2_STARTED`、`SIDE1_SUBSCRIBED`、`SIDE1_LOCAL_EVENT`、`SIDE2_LOCAL_PUBLISHED`、`SIDE2_GLOBAL_PUBLISHED` 和 `SIDE1_GLOBAL_EVENT`。其中 side 间的本地 scope 按设计隔离，不要求 `side1` 接收 `side2` 的本地事件；`side1` 自己发布的本地事件用于证明本地订阅可用。
