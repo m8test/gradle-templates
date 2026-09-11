@@ -9,8 +9,8 @@ use com\example\tool\ToolB;
 /** 通过use使用java中的类, 不能使用 use xxx as xxx 只能使use,因为下面这句话会被替换为 import android.widget.Button, 这样写的目的是有代码提示 **/
 
 // 声明全局变量, 如果不声明的话也可以但是没有代码提示
-global $console;
-ToolB::methodB($console);
+global $logger;
+ToolB::methodB($logger);
 
 /** @var m8test_java\com\m8test\script\core\api\ui\compose\ComposeView $composeView */
 $composeView->create(function ($slot) {

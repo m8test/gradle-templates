@@ -4,8 +4,8 @@ namespace com\example\tool;
 
 class ToolA
 {
-    public static function methodA($console)
+    public static function methodA($logger)
     {
-        $console->log("Method A in ToolA called.");
+        $logger->info("Method A in ToolA called.");
     }
 }
