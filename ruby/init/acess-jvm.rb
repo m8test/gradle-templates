@@ -1,46 +1,43 @@
 # encoding: utf-8
-# 如果源代码中包含中文，那么就需要添加上面的编码语句
-# 通过java_import导入java类
-java_import 'java.lang.StringBuilder'
-java_import 'java.lang.System'
-java_import "com.m8test.script.core.impl.JavaTypeTester"
-# 通过 new 创建 java 对象
-sb = StringBuilder.new("M8Test")
-# 通过.调用java对象方法
-sb.append("Ruby")
-jtt = JavaTypeTester.new
-# 通过.调用java对象属性
-$console.log(jtt.OBJECT_FIELD)
-# 通过.调用java静态方法
-$console.log(System.currentTimeMillis)
-# 非final静态属性通过.调用
-$console.log(JavaTypeTester.STATIC_FIELD)
-java_import "android.os.Build"
-# final静态属性通过 :: 调用
-$console.log(Build::BRAND)
-# 实现java非函数式接口
-class MultiAbstractMethodInterfaceImpl
-  include JavaTypeTester.#::
-  MultiAbstractMethodInterface
+# 通过 res 中的 Java fixture 验证 Ruby/JRuby 的动态 JVM 访问。
+$logger.info("access-jvm", "init started")
 
-  def setInt(i)
-    $console.log("setInt #{i}")
-  end
-
-  def getInt()
-    $console.log("getInt")
-    0
-  end
+dynamic_java = $files.buildFile do |builder|
+  builder.setRelativePath("", "res/com/example/script/DynamicJvmAccess.java")
 end
-
-JavaTypeTester.setMultiAbstractMethodInterface(MultiAbstractMethodInterfaceImpl.new)
-mami = JavaTypeTester.getMultiAbstractMethodInterface
-mami.setInt(1234)
-$console.log(mami.getInt)
-# 实现java功能行接口
-JavaTypeTester.setSingleAbstractMethodInterface {
-  $console.log("getInt")
-  0
-}
-sami = JavaTypeTester.getMultiAbstractMethodInterface
-$console.log(sami.getInt)
+$extensions.loadJavaFile(dynamic_java)
+java_import "com.example.script.DynamicJvmAccess"
+$logger.info("jvm.add", DynamicJvmAccess.add(2, 3).to_s)
+$logger.info("jvm.byte", DynamicJvmAccess.echoByte(8).to_s)
+$logger.info("jvm.short", DynamicJvmAccess.echoShort(16).to_s)
+$logger.info("jvm.int", DynamicJvmAccess.echoInt(32).to_s)
+$logger.info("jvm.long", DynamicJvmAccess.echoLong(64).to_s)
+$logger.info("jvm.float", DynamicJvmAccess.echoFloat(1.25).to_s)
+$logger.info("jvm.double", DynamicJvmAccess.echoDouble(2.5).to_s)
+$logger.info("jvm.char", DynamicJvmAccess.echoChar("Z").to_s)
+$logger.info("jvm.boolean", DynamicJvmAccess.echoBoolean(true).to_s)
+$logger.info("jvm.byteBoxed", DynamicJvmAccess.echoByteBoxed(9).to_s)
+$logger.info("jvm.intBoxed", DynamicJvmAccess.echoIntBoxed(33).to_s)
+$logger.info("jvm.longBoxed", DynamicJvmAccess.echoLongBoxed(34).to_s)
+$logger.info("jvm.join", DynamicJvmAccess.join("甲", "乙"))
+$logger.info("jvm.identity", DynamicJvmAccess.identity("对象"))
+$logger.info("jvm.nullable", DynamicJvmAccess.nullable(nil).to_s)
+$logger.info("jvm.date", DynamicJvmAccess.date.to_s)
+$logger.info("jvm.calendar", DynamicJvmAccess.calendar.to_s)
+$logger.info("jvm.bigInteger", DynamicJvmAccess.bigInteger.to_s)
+$logger.info("jvm.bigDecimal", DynamicJvmAccess.bigDecimal.to_s)
+$logger.info("jvm.byteArrayLength", DynamicJvmAccess.byteArrayLength([1, 2, 3].to_java(:byte)).to_s)
+$logger.info("jvm.objectArrayLength", DynamicJvmAccess.objectArrayLength(["x", "y"].to_java).to_s)
+$logger.info("jvm.sumInts", DynamicJvmAccess.sumInts([1, 2, 3].to_java(:int)).to_s)
+$logger.info("jvm.sumLongs", DynamicJvmAccess.sumLongs([4, 5].to_java(:long)).to_s)
+$logger.info("jvm.listSize", DynamicJvmAccess.listSize(java.util.Arrays.asList("x", "y")).to_s)
+$logger.info("jvm.setSize", DynamicJvmAccess.setSize(java.util.LinkedHashSet.new(["x", "y"])).to_s)
+map = java.util.LinkedHashMap.new
+map.put("answer", 42)
+$logger.info("jvm.mapValue", DynamicJvmAccess.mapValue(map, "answer").to_s)
+$logger.info("jvm.varargs", DynamicJvmAccess.varargs("left", "right"))
+$logger.info("jvm.ints", DynamicJvmAccess.ints(6, 7).to_a.join(":"))
+$logger.info("jvm.strings", DynamicJvmAccess.strings("a", "b").to_a.join(":"))
+$logger.info("jvm.returnedList", DynamicJvmAccess.list("l", "r").size.to_s)
+$logger.info("jvm.returnedMap", DynamicJvmAccess.map("answer", 43).get("answer").to_s)
+$logger.info("access-jvm", "init completed")
