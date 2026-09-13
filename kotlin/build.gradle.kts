@@ -73,45 +73,34 @@ m8testKotlin {
         packageName = "com.example.script.kotlin"
         // 脚本项目logo配置, 这里是相对于 res 目录的路径
         logo = "logo.png"
-        // 在脚本项目中引用 M8Test 组件
-        requireComponent {
-            // 无障碍组件
-            name = "YumiMiyamotoAccessibility"
-            properties["com.m8test.extension.id"] = "com.m8test.accessibility"
-            // 组件版本
-            version = accessibilityVersion
-            // 组件下载地址
-            url =
-                "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
-            // api文档根目录
-            docsRoot = "https://yumimiyamoto.github.io/accessibility-release/app"
-        // 在脚本项目中引用 M8Test 组件
-        requireComponent {
-            // ocr组件
-            name = "YumiMiyamotoOcr"
-            properties["com.m8test.extension.id"] = "com.m8test.ocr"
-            // 组件版本
-            version = ocrVersion
-            // 组件下载地址
-            url =
-                "https://github.com/YumiMiyamoto/ocr-release/releases/download/ocr-$version/com.m8test.ocr-release_$version.apk"
-            // api文档根目录
-            docsRoot = "https://yumimiyamoto.github.io/ocr-release/ocr"
-        }
-        // 在脚本项目中引用 M8Test 组件
-        requireComponent {
-            // opencv 图色组件
-            name = "YumiMiyamotoOpencv"
-            properties["com.m8test.extension.id"] = "com.m8test.image"
-            // 组件版本
-            version = opencvVersion
-            // 组件下载地址
-            url =
-                "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
-            // api文档根目录
-            docsRoot = "https://yumimiyamoto.github.io/opencv-release/image"
-        }
-        }
+        // 组件依赖按需启用；当前 Kotlin builder API 适配不依赖组件。
+        // requireComponent {
+        //     // 无障碍组件
+        //     name = "YumiMiyamotoAccessibility"
+        //     properties["com.m8test.extension.id"] = "com.m8test.accessibility"
+        //     version = accessibilityVersion
+        //     url =
+        //         "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
+        //     docsRoot = "https://yumimiyamoto.github.io/accessibility-release/app"
+        // }
+        // requireComponent {
+        //     // OCR 组件
+        //     name = "YumiMiyamotoOcr"
+        //     properties["com.m8test.extension.id"] = "com.m8test.ocr"
+        //     version = ocrVersion
+        //     url =
+        //         "https://github.com/YumiMiyamoto/ocr-release/releases/download/ocr-$version/com.m8test.ocr-release_$version.apk"
+        //     docsRoot = "https://yumimiyamoto.github.io/ocr-release/ocr"
+        // }
+        // requireComponent {
+        //     // OpenCV 图色组件
+        //     name = "YumiMiyamotoOpencv"
+        //     properties["com.m8test.extension.id"] = "com.m8test.image"
+        //     version = opencvVersion
+        //     url =
+        //         "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
+        //     docsRoot = "https://yumimiyamoto.github.io/opencv-release/image"
+        // }
     }
     // 工具相关配置
     tools {
