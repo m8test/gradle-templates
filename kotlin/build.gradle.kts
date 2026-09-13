@@ -1,7 +1,8 @@
 plugins {
     // 使用 m8test kotlin gradle 插件, 表示这是一个 m8test kotlin 项目
-    alias(libs.plugins.m8test.kotlin)
+    alias(libs.plugins.m8test.gradle.script.kotlin)
 }
+
 // 在gradle.properties中定义的变量, 用于指定m8test版本
 val m8testVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定无障碍插件版本
@@ -10,6 +11,8 @@ val accessibilityVersion: String by project
 val opencvVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定文字识别插件版本
 val ocrVersion: String by project
+// Kotlin 语言插件版本
+val languagePluginVersion: String by project
 // m8testKotlin 闭包用于配置 m8test kotlin 项目
 m8testKotlin {
 //    properties["ADB_HOME"] = "/usr/bin/" // ADB安装目录
@@ -21,9 +24,9 @@ m8testKotlin {
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
 //        adbDeviceSerial = "emulator-5554"
         // 安卓设备的ip地址, 这里是局域网的ip地址, 如果是云手机的话可能需要内网穿透, 这里的ip就需要填写有公网ip的服务器的ip地址
-        deviceIp = "192.168.31.157"
+        deviceIp = "192.168.31.13"
         // M8Test脚本项目根路径, 电脑端构建好的项目会推送到该路径对应的目录
-        projectRoot = "/sdcard/M8Test/project"
+        workspace = "/sdcard/M8Test/project"
         // 安卓设备的adb调试端口, 如果是云手机的话就需要填写内网穿透时映射的adb端口
         adbPort = 5555
         // 安卓设备调试器服务启动的端口
@@ -62,7 +65,7 @@ m8testKotlin {
         addAsset("official_website.txt")
         // 这个文件表示脚本项目版权信息
         addAsset("copyright.txt")
-        // 脚本项目入口文件, 这里是相对于src目录的路径,由于kts后缀文件会被认为是gradle脚本, 所以需要使用kt后缀名作为入口文件, 插件会自动将入口文件的kt改为kts, 请注意, 不要在入口文件之外的其他kt文件中使用m8test脚本提供的全局变量
+        // 脚本项目入口文件, 这里是相对于src目录的路径。模板使用 kt 以便 IDE 正确识别；Gradle 插件生成构建项目时会转换为 kts。
         entry = "com/example/script/primary.kt"
         // 辅助脚本，会在入口文件中自动启动这些脚本, 需要是相对于src目录的路径
         sides = mutableListOf("com/example/script/side1/side1.kt", "com/example/script/side2/side2.kt")
@@ -74,6 +77,7 @@ m8testKotlin {
         requireComponent {
             // 无障碍组件
             name = "YumiMiyamotoAccessibility"
+            properties["com.m8test.extension.id"] = "com.m8test.accessibility"
             // 组件版本
             version = accessibilityVersion
             // 组件下载地址
@@ -81,11 +85,11 @@ m8testKotlin {
                 "https://github.com/YumiMiyamoto/accessibility-release/releases/download/Accessibility-$version/com.m8test.accessibility-release_$version.apk"
             // api文档根目录
             docsRoot = "https://yumimiyamoto.github.io/accessibility-release/app"
-        }
         // 在脚本项目中引用 M8Test 组件
         requireComponent {
             // ocr组件
             name = "YumiMiyamotoOcr"
+            properties["com.m8test.extension.id"] = "com.m8test.ocr"
             // 组件版本
             version = ocrVersion
             // 组件下载地址
@@ -98,6 +102,7 @@ m8testKotlin {
         requireComponent {
             // opencv 图色组件
             name = "YumiMiyamotoOpencv"
+            properties["com.m8test.extension.id"] = "com.m8test.image"
             // 组件版本
             version = opencvVersion
             // 组件下载地址
@@ -105,6 +110,7 @@ m8testKotlin {
                 "https://github.com/YumiMiyamoto/opencv-release/releases/download/opencv-$version/com.m8test.image-release_$version.apk"
             // api文档根目录
             docsRoot = "https://yumimiyamoto.github.io/opencv-release/image"
+        }
         }
     }
     // 工具相关配置
@@ -129,5 +135,13 @@ m8testKotlin {
 //            version = "0.1.2"
 //            url = "https://github.com/m8test/debugger/releases/download/$version/debugger-release-unsigned.apk"
 //        }
+    }
+    settingsConfig {
+        language {
+            properties["com.m8test.extension.id"] = "com.m8test.language.kotlin"
+            version = languagePluginVersion
+            url =
+                "https://github.com/m8test/language-release/releases/download/kotlin-$version/com.m8test.kotlin-release_$version.apk"
+        }
     }
 }

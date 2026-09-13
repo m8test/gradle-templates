@@ -28,7 +28,7 @@ buildscript {
     }
     dependencies {
         val m8testGradleVersion: String by project
-        classpath("com.m8test:gradle-plugin:${m8testGradleVersion}")
+        classpath("com.m8test:gradle:${m8testGradleVersion}")
     }
 }
 //apply(plugin = libs.plugins.m8test.groovy.get().pluginId)
