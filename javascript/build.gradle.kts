@@ -12,6 +12,10 @@ val opencvVersion: String by project
 val ocrVersion: String by project
 // m8testJavascript 闭包用于配置 m8test javascript 项目
 m8testJavascript {
+    // 启用可选 APK Tools Extension；未启用时 BuildProjectSource 不包含 APK 构建能力。
+    apkBuild {
+        isEnabled = true
+    }
 //    properties["ADB_HOME"] = "/usr/bin/" // ADB安装目录
 //    properties["ADB_EXECUTABLE"] = "adb" // ADB可执行文件路径, 相对于 ADB_HOME
 //    properties["SCRCPY_HOME"] = "" // scrcpy安装目录, 如果不需要投屏的话可以不安装
