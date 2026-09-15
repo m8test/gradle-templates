@@ -4,6 +4,7 @@ plugins {
 }
 // 在gradle.properties中定义的变量, 用于指定m8test版本
 val m8testVersion: String by project
+val webViewExtensionVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定无障碍插件版本
 val accessibilityVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定图色插件版本
@@ -82,6 +83,13 @@ m8testJavascript {
     projectConfig {
         // 是否将插件(语言/组件)打包进脚项目中, 如果不将插件打包进脚本项目中，那么运行时会从网络下载需要的语言以及组件，但是需要确保能正常访问外网，这种方式打包速度快，推荐开发时使用这种方式;如果是打包成apk，推荐将插件打包进脚项目中, 这样交付给用户之后就可以直接使用，而无需从网络下载插件, 但是这样安装包会更大
         isPluginsBundled = false
+        // WebView 能力由独立 Runtime Extension 提供；变量名仍由语言绑定决定。
+        requireComponent {
+            name = "M8Test WebView Extension"
+            version = webViewExtensionVersion
+            url = "https://github.com/m8test/m8test-webview-extension/releases/download/$webViewExtensionVersion/com.m8test.extension.webview-release_$webViewExtensionVersion.apk"
+            properties["com.m8test.extension.id"] = "com.m8test.extension.webview"
+        }
         // 相对于res目录的资源文件,会打包到apk的assets目录下
         // 这个文件表示apk启动时自动执行的脚本, 只能是true或者false
         addAsset("auto_start_spa.txt")
