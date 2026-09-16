@@ -44,6 +44,10 @@ m8testJavascript {
     }
     // debugger 闭包用于配置调试器(安卓设备)的信息
     debugger {
+        // 本地设备验证时通过 -Pm8test.device.serial=<serial> 指定设备，避免回退到 deviceIp:adbPort。
+        providers.gradleProperty("m8test.device.serial").orNull?.let {
+            adbDeviceSerial = it
+        }
         // adb 设备序列, 如果您通过数据线连接则需要填写adb设备序列, 例如 emulator-5554, 如果设置了此属性的话并且不为null的话 adbPort 和 deviceIp 会被忽略
         // adbDeviceSerial = "emulator-5554"
         // 安卓设备的ip地址, 这里是局域网的ip地址, 如果是云手机的话可能需要内网穿透, 这里的ip就需要填写有公网ip的服务器的ip地址
