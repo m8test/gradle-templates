@@ -6,6 +6,7 @@ plugins {
 val m8testVersion: String by project
 val webViewExtensionVersion: String by project
 val virtualDisplayExtensionVersion: String by project
+val composeExtensionVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定无障碍插件版本
 val accessibilityVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定图色插件版本
@@ -100,6 +101,12 @@ m8testJavascript {
             version = virtualDisplayExtensionVersion
             url = "https://github.com/m8test/m8test-virtual-display-extension/releases/download/$virtualDisplayExtensionVersion/com.m8test.extension.virtual-display-release_$virtualDisplayExtensionVersion.apk"
             properties["com.m8test.extension.id"] = "com.m8test.extension.virtual-display"
+        }
+        requireComponent {
+            name = "M8Test Compose Extension"
+            version = composeExtensionVersion
+            url = "https://github.com/m8test/m8test-compose-extension/releases/download/$composeExtensionVersion/com.m8test.extension.compose-release_$composeExtensionVersion.apk"
+            properties["com.m8test.extension.id"] = "com.m8test.extension.compose"
         }
         // 相对于res目录的资源文件,会打包到apk的assets目录下
         // 这个文件表示apk启动时自动执行的脚本, 只能是true或者false
