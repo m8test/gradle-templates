@@ -1,0 +1,20 @@
+{
+  "manifestVersion": 1,
+  "protocolVersion": "2.0.0",
+  "requestId": "java-template-webview-e2e",
+  "languageId": "java",
+  "fileName": "main.java",
+  "scriptFile": "main.java",
+  "timeoutMillis": 30000,
+  "components": [
+    {
+      "name": "M8Test WebView Extension",
+      "version": "0.1.0",
+      "url": "https://example.invalid/m8test-webview-extension.apk",
+      "properties": {
+        "com.m8test.extension.id": "com.m8test.extension.webview"
+      }
+    }
+  ],
+  "expectedLogs": []
+}

@@ -7,6 +7,10 @@ local.properties
 build
 debug
 release
+!/java/src/
+!/java/src/test-control/
+!/java/src/test-control/debug/
+!/java/src/test-control/debug/**
 /captures
 .externalNativeBuild
 .cxx

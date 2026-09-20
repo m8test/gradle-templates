@@ -5,6 +5,7 @@ plugins {
 // 在gradle.properties中定义的变量, 用于指定m8test版本
 val m8testVersion: String by project
 val composeExtensionVersion: String by project
+val webViewExtensionVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定无障碍插件版本
 val accessibilityVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定图色插件版本
@@ -57,6 +58,12 @@ m8testJava {
     }
     // 脚本项目配置闭包
     projectConfig {
+        requireComponent {
+            name = "M8Test WebView Extension"
+            version = webViewExtensionVersion
+            url = "https://github.com/m8test/m8test-webview-extension/releases/download/$webViewExtensionVersion/com.m8test.extension.webview-release_$webViewExtensionVersion.apk"
+            properties["com.m8test.extension.id"] = "com.m8test.extension.webview"
+        }
         requireComponent {
             name = "M8Test Compose Extension"
             version = composeExtensionVersion
