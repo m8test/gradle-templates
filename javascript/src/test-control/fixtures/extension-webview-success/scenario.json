@@ -1,0 +1,8 @@
+{
+  "steps": [
+    { "action": "assertUrl", "value": "http://127.0.0.1:18080/index.html" },
+    { "action": "assertText", "selectorType": "css", "selector": "body", "value": "M8Test" },
+    { "action": "click", "selectorType": "css", "selector": "#counter" },
+    { "action": "assertText", "selectorType": "css", "selector": "#counter", "value": "1" }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "steps": [
+    { "action": "assertText", "selectorType": "css", "selector": "#missing", "value": "never exists" }
+  ]
+}
