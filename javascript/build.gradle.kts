@@ -82,7 +82,8 @@ m8testJavascript {
     }
     settingsConfig {
         language {
-            properties["com.m8test.extension.id"] = "com.m8test.extension.language.javascript"
+            extensionId = "com.m8test.extension.language.javascript"
+            entryId = "javascript"
         }
     }
     // 脚本项目配置闭包
@@ -94,19 +95,19 @@ m8testJavascript {
             name = "M8Test WebView Extension"
             version = webViewExtensionVersion
             url = "https://github.com/m8test/m8test-webview-extension/releases/download/$webViewExtensionVersion/com.m8test.extension.webview-release_$webViewExtensionVersion.apk"
-            properties["com.m8test.extension.id"] = "com.m8test.extension.webview"
+            extensionId = "com.m8test.extension.webview"
         }
         requireComponent {
             name = "M8Test Virtual Display Extension"
             version = virtualDisplayExtensionVersion
             url = "https://github.com/m8test/m8test-virtual-display-extension/releases/download/$virtualDisplayExtensionVersion/com.m8test.extension.virtual-display-release_$virtualDisplayExtensionVersion.apk"
-            properties["com.m8test.extension.id"] = "com.m8test.extension.virtual-display"
+            extensionId = "com.m8test.extension.virtual-display"
         }
         requireComponent {
             name = "M8Test Compose Extension"
             version = composeExtensionVersion
             url = "https://github.com/m8test/m8test-compose-extension/releases/download/$composeExtensionVersion/com.m8test.extension.compose-release_$composeExtensionVersion.apk"
-            properties["com.m8test.extension.id"] = "com.m8test.extension.compose"
+            extensionId = "com.m8test.extension.compose"
         }
         // 相对于res目录的资源文件,会打包到apk的assets目录下
         // 这个文件表示apk启动时自动执行的脚本, 只能是true或者false
