@@ -1,0 +1,22 @@
+{
+  "manifestVersion": 1,
+  "protocolVersion": "2.0.0",
+  "requestId": "javascript-template-compose-ui",
+  "extensionId": "com.m8test.extension.language.javascript",
+  "languageEntryId": "javascript",
+  "fileName": "main.js",
+  "scriptFile": "main.js",
+  "timeoutMillis": 30000,
+  "properties": {},
+  "components": [
+    {
+      "name": "M8Test Compose Extension",
+      "version": "0.1.0",
+      "url": "https://github.com/m8test/m8test-compose-extension/releases/download/0.1.0/com.m8test.extension.compose-release_0.1.0.apk",
+      "properties": {
+        "com.m8test.extension.id": "com.m8test.extension.compose"
+      }
+    }
+  ],
+  "expectedLogs": ["test-control-javascript-compose-ui:started"]
+}
