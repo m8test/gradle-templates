@@ -4,20 +4,20 @@ import ToolB = require('com/example/tool/ToolB');
 // 创建 ToolB 实例
 const toolBInstance = new ToolB();
 // 调用 methodB 方法
-toolBInstance.methodB($console);
+toolBInstance.methodB($logger);
 
 // UI 构建部分
 // 注意：由于 slot, column 等参数在原 JS 中没有 JSDoc 类型，这里暂时使用 any。
 // 如果你有对应的 Java/Kotlin 类定义，可以将 any 替换为具体的 Packages... 类型
 $composeView.create((slot) => {
     // 1. 创建一个状态，指定泛型为 number
-    let state = slot.mutableStateOf(0);
+    let state = slot.remember(() => slot.mutableStateOf(0));
     // 创建一个垂直布局
     slot.Column((column) => {
         // 设置垂直布局修饰器
         column.setModifier((m) => {
             // 设置垂直布局填充满屏幕
-            m.fillMaxSize(1.0);
+            return m.fillMaxSize(1.0);
         });
         // 水平居中对齐元素
         column.setHorizontalAlignment((alignments) => { return alignments.getCenterHorizontally(); });
@@ -26,9 +26,7 @@ $composeView.create((slot) => {
 
         column.setContent((columnSlot) => {
             columnSlot.Text((text) => {
-                // 2. 追踪状态变化, 当状态变化时，文本会重新组合
-                text.trackSingleState(state);
-                // 3. 使用状态值设置文本内容
+                // 使用状态值设置文本内容；读取状态时 Compose 会自动追踪重组
                 text.setText("点击次数: " + state.getValue());
             });
             columnSlot.TextButton((button) => {

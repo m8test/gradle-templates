@@ -1,24 +1,12 @@
-// 获取事件发布器，用于发布事件
-let publisher = $events.getPublisher();
-
-// 发送本地事件，只有同一个脚本引擎启动的脚本并且本地订阅的频道和id都相同时才能收到
-publisher.publishLocally((it) => {
-    // 设置本地订阅的频道
-    it.setChannel("subscription-channel");
-    // 设置本地订阅的id
-    it.setId("subscription-id");
-}, (it) => {
-    // 需要发送的数据
-    it.setData("本地事件");
-});
-
-// 发送全局事件，只有全局订阅的频道和id都相同时才能收到
-publisher.publishGlobally((it) => {
-    // 设置全局订阅的频道
-    it.setChannel("subscription-channel");
-    // 设置全局订阅的id
-    it.setId("subscription-id");
-}, (it) => {
-    // 需要发送的数据
-    it.setData("全局事件");
-});
+$logger.info("SIDE2_STARTED");
+const timer = $script.getThreads().getMain().getTimer();
+timer.setTimeout(() => {
+    const publisher = $events.getPublisher();
+    publisher.publish((scopes) => scopes.getScript(), "subscription-channel", (payload) => {
+        payload.putString("data", "本地事件");
+    });
+    publisher.publish((scopes) => scopes.getApp(), "subscription-channel", (payload) => {
+        payload.putString("data", "全局事件");
+    });
+    $logger.info("SIDE2_PUBLISHED");
+}, 500);

@@ -1,27 +1,14 @@
 // 获取事件订阅器，用于订阅事件
 let subscriber = $events.getSubscriber();
 
-// 通过订阅器订阅本地事件
-subscriber.subscribeLocally((it) => {
-    // 设置本地订阅的频道
-    it.setChannel("subscription-channel");
-    // 设置本地订阅的id
-    it.setId("subscription-id");
-}, (it) => {
-    // 当收到同一个引擎中的其他脚本发送的事件时，会执行下面的逻辑
-    $console.log("收到事件", it.getData(), it.getTime(), it.getChannel());
+$logger.info("SIDE1_STARTED");
+subscriber.subscribe((scopes) => scopes.getScript(), "subscription-channel", (event) => {
+    $logger.info("SIDE1_LOCAL_EVENT", event.getPayload().getStringOrNull("data"), event.getTimeMillis(), event.getChannel());
 });
-
-// 通过订阅器订阅全局事件
-subscriber.subscribeGlobally((it) => {
-    // 设置全局订阅的频道
-    it.setChannel("subscription-channel");
-    // 设置全局订阅的id
-    it.setId("subscription-id");
-}, (it) => {
-    // 当收到其他脚本发送的事件时，会执行下面的逻辑
-    $console.log("收到事件", it.getData(), it.getTime(), it.getChannel());
+subscriber.subscribe((scopes) => scopes.getApp(), "subscription-channel", (event) => {
+    $logger.info("SIDE1_GLOBAL_EVENT", event.getPayload().getStringOrNull("data"), event.getTimeMillis(), event.getChannel());
 });
+$logger.info("SIDE1_SUBSCRIBED");
 
 // 获取脚本主线程
 let mainThread = $script.getThreads().getMain();
