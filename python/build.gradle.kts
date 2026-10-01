@@ -5,6 +5,7 @@ plugins {
 // 在gradle.properties中定义的变量, 用于指定m8test版本
 val m8testVersion: String by project
 val composeExtensionVersion: String by project
+val reflectExtensionVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定无障碍插件版本
 val accessibilityVersion: String by project
 // 在gradle.properties中定义的变量, 用于指定图色插件版本
@@ -83,6 +84,12 @@ m8testPython {
             version = composeExtensionVersion
             url = "https://github.com/m8test/m8test-compose-extension/releases/download/$composeExtensionVersion/com.m8test.extension.compose-release_$composeExtensionVersion.apk"
             extensionId = "com.m8test.extension.compose"
+        }
+        requireComponent {
+            name = "M8Test Reflect Extension"
+            version = reflectExtensionVersion
+            url = "https://github.com/m8test/m8test-reflect-extension/releases/download/$reflectExtensionVersion/com.m8test.extension.reflect-release_$reflectExtensionVersion.apk"
+            extensionId = "com.m8test.extension.reflect"
         }
         // 是否将插件(语言/组件)打包进脚项目中, 如果不将插件打包进脚本项目中，那么运行时会从网络下载需要的语言以及组件，但是需要确保能正常访问外网，这种方式打包速度快，推荐开发时使用这种方式;如果是打包成apk，推荐将插件打包进脚项目中, 这样交付给用户之后就可以直接使用，而无需从网络下载插件, 但是这样安装包会更大
         isPluginsBundled = false

@@ -2,7 +2,6 @@
 import os
 
 from m8test_java.com.m8test.script.GlobalVariables import _logger, _files, _extensions, _java
-from m8test_java.com.m8test.python.PythonJepBridge import PythonJepBridge
 
 _logger.info("PYTHON_INIT_ACCESS_JVM_BEGIN")
 
@@ -16,7 +15,7 @@ java_file = _files.buildFile(
         ))
     )
 )
-PythonJepBridge().loadJavaFile(_extensions, java_file)
+_extensions.loadJavaFile(java_file)
 _logger.info("PYTHON_INIT_ACCESS_JVM_JAVA_FILE_LOADED")
 
 PythonJvmAccess = _java.loadClass("com.example.script.PythonJvmAccess")
@@ -53,13 +52,12 @@ _logger.info(str(System.currentTimeMillis()))
 from m8test_java.android.view.Gravity import Gravity
 
 _logger.info(str(Gravity.CENTER))
-# 如果不能通过`.`访问静态属性, 那么可以反射获取
-from m8test_java.com.m8test.script.GlobalVariables import _reflectors
+# 如果不能通过`.`访问静态属性, 使用 Reflect Extension 提供的反射 API
 from m8test_java.android.widget.FrameLayout import FrameLayout
+from m8test_java.com.m8test.script.GlobalVariables import _reflectors
 
-wrap_content = PythonJepBridge().getStaticField(
-    _reflectors, FrameLayout.LayoutParams, "WRAP_CONTENT"
-)
+reflector = _reflectors.byClass(FrameLayout.LayoutParams)
+wrap_content = reflector.getStaticField(lambda field: field.setName("WRAP_CONTENT"))
 _logger.info(str(wrap_content))
 # 访问java内部类可以使用 . , 必须使用'外部类.内部类'的方式调用
 layout_params = FrameLayout.LayoutParams(wrap_content, wrap_content)
