@@ -2,10 +2,12 @@
   "manifestVersion": 1,
   "protocolVersion": "2.0.0",
   "requestId": "java-template-webview-e2e",
-  "languageId": "java",
+  "extensionId": "com.m8test.extension.language.java",
+  "languageEntryId": "java",
   "fileName": "main.java",
   "scriptFile": "main.java",
   "timeoutMillis": 30000,
+  "properties": {},
   "components": [
     {
       "name": "M8Test WebView Extension",
